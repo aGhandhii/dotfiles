@@ -1,0 +1,15 @@
+[core]
+	editor = vim
+    symlinks = true
+[user]
+	email = alexpghandhi@gmail.com
+	name = Alex Ghandhi
+[diff]
+	tool = vimdiff
+[merge]
+    tool = vimdiff
+    conflictstyle = diff3
+    prompt = false
+[mergetool "vimdiff"]
+    layout = "LOCAL,MERGED,REMOTE"
+    keepBackup = false
