@@ -1,11 +1,11 @@
 [core]
-	editor = vim
+    editor = vim
     symlinks = true
 [user]
-	email = alexpghandhi@gmail.com
-	name = Alex Ghandhi
+    email = alexpghandhi@gmail.com
+    name = Alex Ghandhi
 [diff]
-	tool = vimdiff
+    tool = vimdiff
 [merge]
     tool = vimdiff
     conflictstyle = diff3
