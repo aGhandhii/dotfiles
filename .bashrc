@@ -24,9 +24,6 @@ alias seaside="ssh apghand@seaside.cs.washington.edu"
 # Onedrive easy access
 alias onedrive="cd '/c/Users/ghand/OneDrive - UW/Documents/OneDrive - UW/Year 3 - Junior/Q3 - Spring 2023'"
 
-# Circuit labs
-alias 271="cd ~/Downloads/'EE 271 Labs'"
-
 # Git Shortcuts
 alias gut="git"
 alias got="git"

@@ -33,31 +33,75 @@
 " PLACE PLUGINS IN ../.vim/pack/plugins/start/
 "
 " TO INSTALL
-"      -> cd into the appropriate directory
-"      -> git clone <plugin url>
-"      -> use 'git pull' to update
+"   -> cd into the appropriate directory
+"   -> git clone <plugin url>
+"   -> use 'git pull' to update
 "
 " fuzzyy: in-program fuzzy finder
-"      -> https://github.com/Donaldttt/fuzzyy.git
+"   -> https://github.com/Donaldttt/fuzzyy.git
 "
 " indentLine: shows vertical indendation bars
-"      -> https://github.com/Yggdroot/indentLine.git
+"   -> https://github.com/Yggdroot/indentLine.git
 "
 " rainbow: bracket colorizer
-"      -> https://github.com/luochen1990/rainbow.git
+"   -> https://github.com/luochen1990/rainbow.git
 "
 " vim-auto-highlight: highlights matching words in Normal mode
-"      -> https://github.com/obxhdx/vim-auto-highlight.git
+"   -> https://github.com/obxhdx/vim-auto-highlight.git
 "
 " vim-cpp-modern: improved syntax highlighting for C/C++
-"      -> https://github.com/bfrg/vim-cpp-modern.git
+"   -> https://github.com/bfrg/vim-cpp-modern.git
 "
 " vim-gitbranch: gets the name of the current branch, used for the status line
-"      -> https://github.com/itchyny/vim-gitbranch.git
+"   -> https://github.com/itchyny/vim-gitbranch.git
 "
-" vim gitgutter: shows git diff changes in left gutter
-"      -> https://github.com/airblade/vim-gitgutter.git
+" vim-gitgutter: shows git diff changes in left gutter
+"   -> https://github.com/airblade/vim-gitgutter.git
 "
+"~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+" }}}
+
+
+" LSP: {{{
+"~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+"
+" vim-lsp: communicate with a language server in vim
+"   -> https://github.com/prabirshrestha/vim-lsp.git
+"
+" vim-lsp-settings: handles installation/uninstallation of language servers
+"   -> https://github.com/mattn/vim-lsp-settings.git
+"
+" asyncomplete.vim: asynchronous autocompletion engine for vim
+"   -> https://github.com/prabirshrestha/asyncomplete.vim.git
+"
+" asyncomplete-lsp.vim: use vim-lsp as a source for asyncomplete completion
+"   -> https://github.com/prabirshrestha/asyncomplete-lsp.vim.git
+
+" PLUGIN CONFIGURATION
+
+"" vim-lsp
+"let g:lsp_diagnostics_enabled = 0
+"let g:lsp_document_highlight_enabled = 0
+"
+"" asyncomplete
+"inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
+"inoremap <expr> <cr> pumvisible() ? asyncomplete#close_popup() . "\<cr>" : "\<cr>"
+"autocmd! CompleteDone * if pumvisible() == 0 | pclose | endif
+"if executable('pyls')                                           " Config for Python LSP 'pyls'
+"    au User lsp_setup call lsp#register_server({
+"        \ 'name': 'pyls',
+"        \ 'cmd': {server_info->['pyls']},
+"        \ 'allowlist': ['python'],
+"        \ })
+"endif
+"if executable('clangd')                                         " Config for C/C++ LSP 'clangd'
+"    au User lsp_setup call lsp#register_server({
+"        \ 'name': 'clangd',
+"        \ 'cmd': {server_info->['clangd', '-background-index']},
+"        \ 'whitelist': ['c', 'cpp', 'objc', 'objcpp'],
+"        \ })
+"endif
+
 "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 " }}}
 
@@ -154,7 +198,7 @@ set sidescrolloff=5                                             " Keep lines to 
 set mouse=a                                                     " Allow mouse use
 
 " Search settings
-set ignorecase                                                  " Ignore capital letters when searching
+"set ignorecase                                                  " Ignore capital letters when searching
 set hlsearch                                                    " Allows highlighting during a search
 set showcmd                                                     " Show partial commands in search
 set incsearch                                                   " Incremental searching
@@ -240,6 +284,14 @@ let g:rainbow_active = 1
 " Configure fuzzyy
 let g:enable_fuzzyy_keymaps = 0                                 " Disable default keymaps
 
+" LSP Setup (plugin is slow, implement this over time)
+" python-lsp-server
+" call LspAddServer([#{name: 'pylsp',
+"                  \   filetype: 'python',
+"                  \   path: 'PATH TO SERVER EXECUTABLE',
+"                  \   args: []
+"                  \ }])
+
 "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 " }}}
 
@@ -251,8 +303,8 @@ let g:enable_fuzzyy_keymaps = 0                                 " Disable defaul
 nnoremap <silent> t :Lexplore<CR>
 " Open Fuzzyy File Explorer
 nnoremap <silent> <C-p> :FuzzyFiles<CR>
-" Open a split Terminal\
-nnoremap <silent> y :vert term<CR>
+" Open a Split Terminal
+nnoremap <silent> <C-t> :vert term<CR>
 " Toggle relative line number
 nnoremap <silent> <F1> :exec &rnu==1? "set nornu" : "set rnu"<CR>
 " Change Buffer
