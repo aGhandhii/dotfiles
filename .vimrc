@@ -84,7 +84,6 @@
 "let g:lsp_document_highlight_enabled = 0
 "
 "" asyncomplete
-"inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
 "inoremap <expr> <cr> pumvisible() ? asyncomplete#close_popup() . "\<cr>" : "\<cr>"
 "autocmd! CompleteDone * if pumvisible() == 0 | pclose | endif
 "if executable('pyls')                                           " Config for Python LSP 'pyls'
@@ -323,6 +322,12 @@ noremap <S-Left> 5zh
 noremap <S-h> 5zh
 noremap <S-Right> 5zl
 noremap <S-l> 5zl
+" Tab Completion
+inoremap <silent><expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <silent><expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+inoremap <silent><expr> <Down> pumvisible() ? "\<C-n>" : "\<Down>"
+inoremap <silent><expr> <Up> pumvisible() ? "\<C-p>" : "\<Up>"
+inoremap <silent><expr> <CR> pumvisible() ? "\<C-y>" : "\<CR>"
 
 "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 " }}}
