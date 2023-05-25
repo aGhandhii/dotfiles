@@ -65,41 +65,73 @@
 " LSP: {{{
 "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 "
-" vim-lsp: communicate with a language server in vim
-"   -> https://github.com/prabirshrestha/vim-lsp.git
+" Place in ../.vim/pack/plugins/opt/
 "
-" vim-lsp-settings: handles installation/uninstallation of language servers
-"   -> https://github.com/mattn/vim-lsp-settings.git
+" lsp: vim9 Language Server implementation
+"   -> https://github.com/yegappan/lsp.git
 "
-" asyncomplete.vim: asynchronous autocompletion engine for vim
-"   -> https://github.com/prabirshrestha/asyncomplete.vim.git
-"
-" asyncomplete-lsp.vim: use vim-lsp as a source for asyncomplete completion
-"   -> https://github.com/prabirshrestha/asyncomplete-lsp.vim.git
+" Load the plugin
+packadd lsp
 
-" PLUGIN CONFIGURATION
+" Set Options
+call LspOptionsSet(#{
+	\   autoComplete: v:true,
+	\   autoHighlight: v:false,
+	\   autoHighlightDiags: v:false,
+	\   autoPopulateDiags: v:false,
+	\   completionMatcher: 'case',
+	\   completionTextEdit: v:true,
+	\   completionKinds: {},
+	\   customCompletionKinds: v:false,
+	\   diagSignErrorText: 'E>',
+	\   diagSignInfoText: 'I>',
+	\   diagSignHintText: 'H>',
+	\   diagSignWarningText: 'W>',
+	\   diagVirtualTextAlign: 'above',
+	\   echoSignature: v:false,
+	\   hideDisabledCodeActions: v:false,
+	\   highlightDiagInline: v:false,
+	\   hoverInPreview: v:false,
+	\   ignoreMissingServer: v:false,
+	\   keepFocusInReferences: v:false,
+	\   noDiagHoverOnLine: v:true,
+	\   noNewlineInCompletion: v:true,
+	\   outlineOnRight: v:false,
+	\   outlineWinSize: 20,
+	\   showDiagInPopup: v:true,
+	\   showDiagOnStatusLine: v:false,
+	\   showDiagWithVirtualText: v:false,
+	\   showInlayHints: v:false,
+	\   showSignature: v:true,
+	\   snippetSupport: v:false,
+	\   ultisnipsSupport: v:false,
+	\   usePopupInCodeAction: v:false,
+	\   useQuickfixForLocations: v:true,
+	\   useBufferCompletion: v:false,
+	\ })
 
-"" vim-lsp
-"let g:lsp_diagnostics_enabled = 0
-"let g:lsp_document_highlight_enabled = 0
-"
-"" asyncomplete
-"inoremap <expr> <cr> pumvisible() ? asyncomplete#close_popup() . "\<cr>" : "\<cr>"
-"autocmd! CompleteDone * if pumvisible() == 0 | pclose | endif
-"if executable('pyls')                                           " Config for Python LSP 'pyls'
-"    au User lsp_setup call lsp#register_server({
-"        \ 'name': 'pyls',
-"        \ 'cmd': {server_info->['pyls']},
-"        \ 'allowlist': ['python'],
-"        \ })
-"endif
-"if executable('clangd')                                         " Config for C/C++ LSP 'clangd'
-"    au User lsp_setup call lsp#register_server({
-"        \ 'name': 'clangd',
-"        \ 'cmd': {server_info->['clangd', '-background-index']},
-"        \ 'whitelist': ['c', 'cpp', 'objc', 'objcpp'],
-"        \ })
-"endif
+" python-lsp-server
+call LspAddServer([#{name: 'pylsp',
+                 \   filetype: 'python',
+                 \   path: 'C:/users/ghand/AppData/Local/Programs/Python/Python310/Scripts/pylsp.exe',
+                 \   args: []
+                 \ }])
+
+" Clangd C/C++ Language Server
+call LspAddServer([#{
+	\    name: 'clangd',
+	\    filetype: ['c', 'cpp'],
+	\    path: 'C:/Users/ghand/Documents/Codes/C++/clangd-windows-16.0.2/bin/clangd.exe',
+	\    args: ['--background-index']
+	\  }])
+
+"" svls SystemVerilog Language Server
+"call LspAddServer([#{
+"    \    name: 'svls',
+"    \    filetype: 'systemverilog',
+"    \    path: '',
+"    \    args: []
+"    \  }])
 
 "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 " }}}
@@ -282,14 +314,7 @@ let g:rainbow_active = 1
 
 " Configure fuzzyy
 let g:enable_fuzzyy_keymaps = 0                                 " Disable default keymaps
-
-" LSP Setup (plugin is slow, implement this over time)
-" python-lsp-server
-" call LspAddServer([#{name: 'pylsp',
-"                  \   filetype: 'python',
-"                  \   path: 'PATH TO SERVER EXECUTABLE',
-"                  \   args: []
-"                  \ }])
+"let g:fuzzyy_devicons = 0                                       " Disable devicons (currently has issues)
 
 "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 " }}}
@@ -302,6 +327,8 @@ let g:enable_fuzzyy_keymaps = 0                                 " Disable defaul
 nnoremap <silent> t :Lexplore<CR>
 " Open Fuzzyy File Explorer
 nnoremap <silent> <C-p> :FuzzyFiles<CR>
+" Open Fuzzyy Text Search
+nnoremap <silent> <C-f> :FuzzyGrep<CR>
 " Open a Split Terminal
 nnoremap <silent> <C-t> :vert term<CR>
 " Toggle relative line number
