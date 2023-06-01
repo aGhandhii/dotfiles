@@ -58,6 +58,10 @@
 " vim-gitgutter: shows git diff changes in left gutter
 "   -> https://github.com/airblade/vim-gitgutter.git
 "
+" vim-pydocstring: automatically generate python function docstrings
+"   -> https://github.com/heavenshell/vim-pydocstring.git
+"   -> requires 'doq', installed with 'pip'
+"
 "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 " }}}
 
@@ -83,10 +87,10 @@ call LspOptionsSet(#{
 	\   completionTextEdit: v:true,
 	\   completionKinds: {},
 	\   customCompletionKinds: v:false,
-	\   diagSignErrorText: 'E>',
-	\   diagSignInfoText: 'I>',
-	\   diagSignHintText: 'H>',
-	\   diagSignWarningText: 'W>',
+	\   diagSignErrorText: ' ',
+	\   diagSignInfoText: ' ',
+	\   diagSignHintText: ' ',
+	\   diagSignWarningText: ' ',
 	\   diagVirtualTextAlign: 'above',
 	\   echoSignature: v:false,
 	\   hideDisabledCodeActions: v:false,
@@ -110,12 +114,13 @@ call LspOptionsSet(#{
 	\   useBufferCompletion: v:false,
 	\ })
 
-" python-lsp-server
-call LspAddServer([#{name: 'pylsp',
-                 \   filetype: 'python',
-                 \   path: 'C:/users/ghand/AppData/Local/Programs/Python/Python310/Scripts/pylsp.exe',
-                 \   args: []
-                 \ }])
+" python-lsp-server, downloaded with 'pip'
+call LspAddServer([#{
+    \   name: 'pylsp',
+    \   filetype: 'python',
+    \   path: 'C:/users/ghand/AppData/Local/Programs/Python/Python311/Scripts/pylsp.exe',
+    \   args: []
+    \ }])
 
 " Clangd C/C++ Language Server
 call LspAddServer([#{
@@ -176,7 +181,7 @@ set foldmethod=marker
 syntax enable
 
 " Display line numbers
-set number
+set relativenumber
 
 " Expand command history
 set history=1000
@@ -314,7 +319,12 @@ let g:rainbow_active = 1
 
 " Configure fuzzyy
 let g:enable_fuzzyy_keymaps = 0                                 " Disable default keymaps
-"let g:fuzzyy_devicons = 0                                       " Disable devicons (currently has issues)
+let g:fuzzyy_devicons = 0                                       " Disable devicons
+
+" Configure pydocstring
+let g:pydocstring_formatter = 'google'
+let g:pydocstring_doq_path = 'C:/Users/ghand/AppData/Local/Programs/Python/Python311/Scripts/doq.exe'
+let g:pydocstring_enable_mapping = 0
 
 "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 " }}}
