@@ -18,11 +18,8 @@ alias ls="ls --color=auto"
 alias la="ls -a --color=auto"
 alias ll="ls -l --color=auto"
 
-# For College CS Courses
-alias seaside="ssh apghand@seaside.cs.washington.edu"
-
 # Onedrive easy access
-alias onedrive="cd '/c/Users/ghand/OneDrive - UW/Documents/OneDrive - UW/Year 3 - Junior/Q3 - Spring 2023'"
+alias onedrive="cd '/c/Users/ghand/OneDrive - UW/Documents/OneDrive - UW/Year 3 - Junior/'"
 
 # Git Shortcuts
 alias gut="git"
