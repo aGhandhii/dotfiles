@@ -19,7 +19,7 @@
 "     |-📂pack
 "         |-📂plugins
 "             |-📂opt
-"             |   |- <colorscheme plugins>
+"             |   |- <colorscheme/lsp plugins>
 "             |-📂start
 "                 |- <all other plugins>
 "
@@ -79,9 +79,10 @@ packadd lsp
 
 " Set Options
 call LspOptionsSet(#{
+	\   aleSupport: v:false,
 	\   autoComplete: v:true,
-	\   autoHighlight: v:false,
-	\   autoHighlightDiags: v:false,
+	\   autoHighlight: v:true,
+	\   autoHighlightDiags: v:true,
 	\   autoPopulateDiags: v:false,
 	\   completionMatcher: 'case',
 	\   completionTextEdit: v:true,
@@ -94,49 +95,49 @@ call LspOptionsSet(#{
 	\   diagVirtualTextAlign: 'above',
 	\   echoSignature: v:false,
 	\   hideDisabledCodeActions: v:false,
-	\   highlightDiagInline: v:false,
+	\   highlightDiagInline: v:true,
 	\   hoverInPreview: v:false,
 	\   ignoreMissingServer: v:false,
 	\   keepFocusInReferences: v:false,
-	\   noDiagHoverOnLine: v:true,
-	\   noNewlineInCompletion: v:true,
+	\   noNewlineInCompletion: v:false,
 	\   outlineOnRight: v:false,
 	\   outlineWinSize: 20,
+	\   showDiagInBalloon: v:true,
 	\   showDiagInPopup: v:true,
-	\   showDiagOnStatusLine: v:false,
+	\   showDiagOnStatusLine: v:true,
+	\   showDiagWithSign: v:true,
 	\   showDiagWithVirtualText: v:false,
 	\   showInlayHints: v:false,
 	\   showSignature: v:true,
 	\   snippetSupport: v:false,
 	\   ultisnipsSupport: v:false,
 	\   usePopupInCodeAction: v:false,
-	\   useQuickfixForLocations: v:true,
-	\   useBufferCompletion: v:false,
+	\   useQuickfixForLocations: v:false,
+	\   useBufferCompletion: v:true,
 	\ })
 
-" python-lsp-server, downloaded with 'pip'
+" pylsp Python Language Server
 call LspAddServer([#{
     \   name: 'pylsp',
     \   filetype: 'python',
-    \   path: 'C:/users/ghand/AppData/Local/Programs/Python/Python311/Scripts/pylsp.exe',
+    \   path: 'pylsp',
     \   args: []
     \ }])
 
 " Clangd C/C++ Language Server
 call LspAddServer([#{
-	\    name: 'clangd',
-	\    filetype: ['c', 'cpp'],
-	\    path: 'C:/Users/ghand/Documents/Codes/C++/clangd-windows-16.0.2/bin/clangd.exe',
-	\    args: ['--background-index']
-	\  }])
+	\   name: 'clangd',
+	\   filetype: ['c', 'cpp'],
+	\   path: 'clangd',
+	\   args: ['--background-index', '--clang-tidy']
+	\ }])
 
-"" svls SystemVerilog Language Server
-"call LspAddServer([#{
-"    \    name: 'svls',
-"    \    filetype: 'systemverilog',
-"    \    path: '',
-"    \    args: []
-"    \  }])
+" Verible SystemVerilog Language Server
+call LspAddServer([#{
+    \   name: 'verible-verilog-ls',
+    \   filetype: ['systemverilog', 'verilog'],
+    \   path: 'verible-verilog-ls',
+    \ }])
 
 "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 " }}}
@@ -164,6 +165,7 @@ packadd vim-gruvbox8
 set background=dark
 let g:gruvbox_bold = 1
 let g:gruvbox_italics = 0
+let g:gruvbox_italicize_strings = 0
 "let g:gruvbox_transp_bg = 1
 colorscheme gruvbox8_soft
 
@@ -182,6 +184,7 @@ syntax enable
 
 " Display line numbers
 set relativenumber
+set number
 
 " Expand command history
 set history=1000
@@ -318,7 +321,7 @@ let g:indentLine_char = '¦'
 let g:rainbow_active = 1
 
 " Configure fuzzyy
-let g:enable_fuzzyy_keymaps = 0                                 " Disable default keymaps
+"let g:enable_fuzzyy_keymaps = 0                                 " Disable default keymaps
 let g:fuzzyy_devicons = 0                                       " Disable devicons
 
 " Configure pydocstring
@@ -335,14 +338,12 @@ let g:pydocstring_enable_mapping = 0
 
 " Open netrw File Explorer
 nnoremap <silent> t :Lexplore<CR>
-" Open Fuzzyy File Explorer
-nnoremap <silent> <C-p> :FuzzyFiles<CR>
 " Open Fuzzyy Text Search
 nnoremap <silent> <C-f> :FuzzyGrep<CR>
-" Open a Split Terminal
-nnoremap <silent> <C-t> :vert term<CR>
-" Toggle relative line number
-nnoremap <silent> <F1> :exec &rnu==1? "set nornu" : "set rnu"<CR>
+" Open a new tab
+nnoremap <silent> <C-t> :tabnew<CR>
+" Toggle line number style
+nnoremap <silent> <F1> :exec &nu==&rnu ? "set nu!" : "set rnu!" <CR> 
 " Change Buffer
 nnoremap <silent> <A-Left> :bp<CR>
 nnoremap <silent> <A-Right> :bn<CR>
@@ -405,6 +406,8 @@ endfunction
 
 " Icon references
 let g:file_icons = {
+    \ 'sv'                : '󰘚',
+    \ 'v'                 : '󰘚',
     \ 'styl'              : '',
     \ 'sass'              : '',
     \ 'scss'              : '',
