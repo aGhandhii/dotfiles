@@ -137,6 +137,7 @@ call LspAddServer([#{
     \   name: 'verible-verilog-ls',
     \   filetype: ['systemverilog', 'verilog'],
     \   path: 'verible-verilog-ls',
+    \   args: ['--rules_config_search']
     \ }])
 
 "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -284,7 +285,7 @@ set laststatus=2
 set statusline=                                                 " Clear current status
 set statusline+=%#Special#%{TruncatedBranch()}%#LineNr#\        " Display git branch name
 set statusline+=%#Identifier#\%{GetFileIcon()}\ %f              " Filename
-set statusline+=%#WarningMsg#%{Modified()}\                     " Modified marker
+set statusline+=%#WarningMsg#%{&modified?'*':''}\               " Modified marker
 set statusline+=%=                                              " Move to right side
 set statusline+=%#LineNr#\%{&fileencoding}\                     " File encoding type
 set statusline+=%#Constant#\row:\ %-3l\ col:\ %-3c%#LineNr#     " Row and column numbers
@@ -342,8 +343,8 @@ nnoremap <silent> t :Lexplore<CR>
 nnoremap <silent> <C-f> :FuzzyGrep<CR>
 " Open a new tab
 nnoremap <silent> <C-t> :tabnew<CR>
-" Toggle line number style
-nnoremap <silent> <F1> :exec &nu==&rnu ? "set nu!" : "set rnu!" <CR> 
+" Toggle Relative Line Number
+nnoremap <silent> <F1> :set relativenumber!<CR>
 " Change Buffer
 nnoremap <silent> <A-Left> :bp<CR>
 nnoremap <silent> <A-Right> :bn<CR>
@@ -383,14 +384,6 @@ function TruncatedBranch()
         return ""
     endif
     return "   " . branch
-endfunction
-
-"Function to determine if file is modified
-function Modified()
-    if &modified
-        return '*'
-    endif
-    return ''
 endfunction
 
 " Determine file icon for file type
