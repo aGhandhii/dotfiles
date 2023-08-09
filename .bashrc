@@ -17,22 +17,34 @@ alias c=clear
 alias ls="ls --color=auto"
 alias la="ls -a --color=auto"
 alias ll="ls -l --color=auto"
+alias cls="clear; ls -a --color=auto"
 
-# Onedrive easy access
-alias onedrive="cd '/c/Users/ghand/OneDrive - UW/Documents/OneDrive - UW/Year 3 - Junior/'"
+alias onedrive="cd '/c/Users/ghand/OneDrive - UW/Documents/OneDrive - UW/Year 3 - Junior/Q4 - Summer 2023/EE 371 (Digital Circuits & Systems II)'"
+alias 371="cd Downloads/'EE_371_Labs'"
 
 # Git Shortcuts
-alias gut="git"
-alias got="git"
 alias gs="git status"
 alias gl="git log"
 alias gaa="git add -A"
-alias gc="git commit"
-alias gb="git branch"
-alias gca="git commit --amend"
 alias gp="git push"
 alias gpf="git push --force"
 alias gro="git rebase origin"
+alias grph="git rev-parse HEAD"
+
+function gb() {
+    git branch "$@"
+}
+export -f gb
+
+function gc() {
+    git commit "$@"
+}
+export -f gc
+
+function grih() {
+    git rebase -i HEAD~"$1"
+}
+export -f grih
 
 #}}}
 
@@ -42,17 +54,11 @@ alias gro="git rebase origin"
 function git_branch_name() {
     BRANCH="$(git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/' -e 's/[ ()]//g')"
     if [ "$BRANCH" != "" ]; then
-        echo "$BRANCH "
+        echo "$BRANCH "
     else
         echo ""
     fi
 }
-
-# Easy Interactive Rebase
-function grih() {
-    git rebase -i HEAD~"$1"
-}
-export -f grih
 
 #}}}
 
@@ -79,7 +85,7 @@ prompt="-> "
 # PS1 definition
 # use 'prompt_command' to force update after each bash command
 function prompt_command {
-    PS1="$orange$(git_branch_name)$green$user$pink$host$blue$dir$white$prompt"
+    PS1="$orange$(git_branch_name)$jade$user$purple$host$blue$dir$white$prompt"
 }
 export PROMPT_COMMAND=prompt_command
 

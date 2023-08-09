@@ -38,28 +38,28 @@
 "   -> use 'git pull' to update
 "
 " fuzzyy: in-program fuzzy finder
-"   -> https://github.com/Donaldttt/fuzzyy.git
+"   -> https://github.com/Donaldttt/fuzzyy
 "
 " indentLine: shows vertical indendation bars
-"   -> https://github.com/Yggdroot/indentLine.git
+"   -> https://github.com/Yggdroot/indentLine
 "
 " rainbow: bracket colorizer
-"   -> https://github.com/luochen1990/rainbow.git
+"   -> https://github.com/luochen1990/rainbow
 "
 " vim-auto-highlight: highlights matching words in Normal mode
-"   -> https://github.com/obxhdx/vim-auto-highlight.git
+"   -> https://github.com/obxhdx/vim-auto-highlight
 "
 " vim-cpp-modern: improved syntax highlighting for C/C++
-"   -> https://github.com/bfrg/vim-cpp-modern.git
+"   -> https://github.com/bfrg/vim-cpp-modern
 "
 " vim-gitbranch: gets the name of the current branch, used for the status line
-"   -> https://github.com/itchyny/vim-gitbranch.git
+"   -> https://github.com/itchyny/vim-gitbranch
 "
 " vim-gitgutter: shows git diff changes in left gutter
-"   -> https://github.com/airblade/vim-gitgutter.git
+"   -> https://github.com/airblade/vim-gitgutter
 "
 " vim-pydocstring: automatically generate python function docstrings
-"   -> https://github.com/heavenshell/vim-pydocstring.git
+"   -> https://github.com/heavenshell/vim-pydocstring
 "   -> requires 'doq', installed with 'pip'
 "
 "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -83,23 +83,25 @@ call LspOptionsSet(#{
 	\   autoComplete: v:true,
 	\   autoHighlight: v:true,
 	\   autoHighlightDiags: v:true,
-	\   autoPopulateDiags: v:false,
+	\   autoPopulateDiags: v:true,
 	\   completionMatcher: 'case',
 	\   completionTextEdit: v:true,
 	\   completionKinds: {},
 	\   customCompletionKinds: v:false,
-	\   diagSignErrorText: ' ',
-	\   diagSignInfoText: ' ',
-	\   diagSignHintText: ' ',
-	\   diagSignWarningText: ' ',
+	\   diagSignErrorText: '',
+	\   diagSignInfoText: '',
+	\   diagSignHintText: '',
+	\   diagSignWarningText: '',
 	\   diagVirtualTextAlign: 'above',
 	\   echoSignature: v:false,
 	\   hideDisabledCodeActions: v:false,
 	\   highlightDiagInline: v:true,
 	\   hoverInPreview: v:false,
 	\   ignoreMissingServer: v:false,
-	\   keepFocusInReferences: v:false,
+    \   keepFocusInDiags: v:true,
+	\   keepFocusInReferences: v:true,
 	\   noNewlineInCompletion: v:false,
+    \   omniComplete: v:true,
 	\   outlineOnRight: v:false,
 	\   outlineWinSize: 20,
 	\   showDiagInBalloon: v:true,
@@ -111,7 +113,7 @@ call LspOptionsSet(#{
 	\   showSignature: v:true,
 	\   snippetSupport: v:false,
 	\   ultisnipsSupport: v:false,
-	\   usePopupInCodeAction: v:false,
+	\   usePopupInCodeAction: v:true,
 	\   useQuickfixForLocations: v:false,
 	\   useBufferCompletion: v:true,
 	\ })
@@ -287,8 +289,9 @@ set statusline+=%#Special#%{TruncatedBranch()}%#LineNr#\        " Display git br
 set statusline+=%#Identifier#\%{GetFileIcon()}\ %f              " Filename
 set statusline+=%#WarningMsg#%{&modified?'*':''}\               " Modified marker
 set statusline+=%=                                              " Move to right side
-set statusline+=%#LineNr#\%{&fileencoding}\                     " File encoding type
-set statusline+=%#Constant#\row:\ %-3l\ col:\ %-3c%#LineNr#     " Row and column numbers
+set statusline+=%#LineNr#\%{DisplayOS()}\                       " Operating System
+set statusline+=%{&fileencoding}\                               " File encoding type
+set statusline+=%#Constant#\\ %-2l\ \ %-2c%#LineNr#           " Row and column numbers
 
 "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 " }}}
@@ -316,13 +319,12 @@ let g:gitgutter_sign_removed_first_line='█'
 let g:gitgutter_sign_modified_removed='█'
 
 " Configure indentLine
-let g:indentLine_char = '¦'
+let g:indentLine_char = ''
 
 " Configure Rainbow
 let g:rainbow_active = 1
 
 " Configure fuzzyy
-"let g:enable_fuzzyy_keymaps = 0                                 " Disable default keymaps
 let g:fuzzyy_devicons = 0                                       " Disable devicons
 
 " Configure pydocstring
@@ -386,6 +388,21 @@ function TruncatedBranch()
     return "   " . branch
 endfunction
 
+" Display the current operating system
+function DisplayOS()
+    if has('win32')
+        return ''
+    elseif has('win32unix')
+        return ''
+    elseif has('macunix')
+        return '󰀶'
+    elseif has('unix')
+        return ''
+    else
+        return ''
+    endif
+endfunction
+
 " Determine file icon for file type
 function GetFileIcon()
     let file_extension = expand('%:e')
@@ -447,12 +464,10 @@ let g:file_icons = {
     \ 'ico'               : '',
     \ 'twig'              : '',
     \ 'cpp'               : '',
-    \ 'c++'               : '',
     \ 'cxx'               : '',
     \ 'cc'                : '',
     \ 'cp'                : '',
     \ 'c'                 : '',
-    \ 'cs'                : '',
     \ 'h'                 : '',
     \ 'hh'                : '',
     \ 'hpp'               : '',
@@ -518,10 +533,8 @@ let g:file_icons = {
     \ 'swift'             : '',
     \ 'xcplayground'      : '',
     \ 'tex'               : 'ﭨ',
-    \ 'r'                 : 'ﳒ',
-    \ 'rproj'             : '鉶',
-    \ 'sol'               : 'ﲹ',
-    \ 'pem'               : '',
+    \ 'r'                 : '󰟔',
+    \ 'rproj'             : '󰟔',
     \ 'gruntfile.coffee'  : '',
     \ 'gruntfile.js'      : '',
     \ 'gruntfile.ls'      : '',
