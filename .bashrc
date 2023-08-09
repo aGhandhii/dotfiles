@@ -19,17 +19,34 @@ alias la="ls -a --color=auto"
 alias ll="ls -l --color=auto"
 alias cls="clear; ls -a --color=auto"
 
+# Personal
 alias onedrive="cd '/c/Users/ghand/OneDrive - UW/Documents/OneDrive - UW/Year 3 - Junior/Q4 - Summer 2023/EE 371 (Digital Circuits & Systems II)'"
 alias 371="cd Downloads/'EE_371_Labs'"
 
-# Git Shortcuts
-alias gs="git status"
-alias gl="git log"
-alias gaa="git add -A"
-alias gp="git push"
-alias gpf="git push --force"
+# Git Shortcuts {{{
+
 alias gro="git rebase origin"
 alias grph="git rev-parse HEAD"
+
+function gs() {
+    git status "$@"
+}
+export -f gs
+
+function gl() {
+    git log "$@"
+}
+export -f gl
+
+function ga() {
+    git add "$@"
+}
+export -f ga
+
+function gp() {
+    git push "$@"
+}
+export -f gp
 
 function gb() {
     git branch "$@"
@@ -45,6 +62,8 @@ function grih() {
     git rebase -i HEAD~"$1"
 }
 export -f grih
+
+# }}}
 
 #}}}
 
