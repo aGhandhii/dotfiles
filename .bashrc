@@ -19,9 +19,7 @@ alias la="ls -a --color=auto"
 alias ll="ls -l --color=auto"
 alias cls="clear; ls -a --color=auto"
 
-# Personal
-alias onedrive="cd '/c/Users/ghand/OneDrive - UW/Documents/OneDrive - UW/Year 3 - Junior/Q4 - Summer 2023/EE 371 (Digital Circuits & Systems II)'"
-alias 371="cd Downloads/'EE_371_Labs'"
+#}}}
 
 # Git Shortcuts {{{
 
@@ -62,8 +60,6 @@ function grih() {
     git rebase -i HEAD~"$1"
 }
 export -f grih
-
-# }}}
 
 #}}}
 

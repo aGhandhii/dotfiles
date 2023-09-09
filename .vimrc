@@ -326,6 +326,7 @@ let g:rainbow_active = 1
 
 " Configure fuzzyy
 let g:fuzzyy_devicons = 0                                       " Disable devicons
+let g:files_respect_gitignore = 1                               " Respect GitIgnore
 
 " Configure pydocstring
 let g:pydocstring_formatter = 'google'
