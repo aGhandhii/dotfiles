@@ -79,44 +79,44 @@ packadd lsp
 
 " Set Options
 call LspOptionsSet(#{
-	\   aleSupport: v:false,
-	\   autoComplete: v:true,
-	\   autoHighlight: v:true,
-	\   autoHighlightDiags: v:true,
-	\   autoPopulateDiags: v:true,
-	\   completionMatcher: 'case',
-	\   completionTextEdit: v:true,
-	\   completionKinds: {},
-	\   customCompletionKinds: v:false,
-	\   diagSignErrorText: '',
-	\   diagSignInfoText: '',
-	\   diagSignHintText: '',
-	\   diagSignWarningText: '',
-	\   diagVirtualTextAlign: 'above',
-	\   echoSignature: v:false,
-	\   hideDisabledCodeActions: v:false,
-	\   highlightDiagInline: v:true,
-	\   hoverInPreview: v:false,
-	\   ignoreMissingServer: v:false,
+    \   aleSupport: v:false,
+    \   autoComplete: v:true,
+    \   autoHighlight: v:true,
+    \   autoHighlightDiags: v:true,
+    \   autoPopulateDiags: v:true,
+    \   completionMatcher: 'case',
+    \   completionTextEdit: v:true,
+    \   completionKinds: {},
+    \   customCompletionKinds: v:false,
+    \   diagSignErrorText: '',
+    \   diagSignInfoText: '',
+    \   diagSignHintText: '',
+    \   diagSignWarningText: '',
+    \   diagVirtualTextAlign: 'above',
+    \   echoSignature: v:false,
+    \   hideDisabledCodeActions: v:false,
+    \   highlightDiagInline: v:true,
+    \   hoverInPreview: v:false,
+    \   ignoreMissingServer: v:false,
     \   keepFocusInDiags: v:true,
-	\   keepFocusInReferences: v:true,
-	\   noNewlineInCompletion: v:false,
+    \   keepFocusInReferences: v:true,
+    \   noNewlineInCompletion: v:false,
     \   omniComplete: v:true,
-	\   outlineOnRight: v:false,
-	\   outlineWinSize: 20,
-	\   showDiagInBalloon: v:true,
-	\   showDiagInPopup: v:true,
-	\   showDiagOnStatusLine: v:true,
-	\   showDiagWithSign: v:true,
-	\   showDiagWithVirtualText: v:false,
-	\   showInlayHints: v:false,
-	\   showSignature: v:true,
-	\   snippetSupport: v:false,
-	\   ultisnipsSupport: v:false,
-	\   usePopupInCodeAction: v:true,
-	\   useQuickfixForLocations: v:false,
-	\   useBufferCompletion: v:true,
-	\ })
+    \   outlineOnRight: v:false,
+    \   outlineWinSize: 20,
+    \   showDiagInBalloon: v:true,
+    \   showDiagInPopup: v:true,
+    \   showDiagOnStatusLine: v:true,
+    \   showDiagWithSign: v:true,
+    \   showDiagWithVirtualText: v:false,
+    \   showInlayHints: v:false,
+    \   showSignature: v:true,
+    \   snippetSupport: v:false,
+    \   ultisnipsSupport: v:false,
+    \   usePopupInCodeAction: v:true,
+    \   useQuickfixForLocations: v:false,
+    \   useBufferCompletion: v:true,
+    \ })
 
 " pylsp Python Language Server
 call LspAddServer([#{
@@ -128,11 +128,11 @@ call LspAddServer([#{
 
 " Clangd C/C++ Language Server
 call LspAddServer([#{
-	\   name: 'clangd',
-	\   filetype: ['c', 'cpp'],
-	\   path: 'clangd',
-	\   args: ['--background-index', '--clang-tidy']
-	\ }])
+    \   name: 'clangd',
+    \   filetype: ['c', 'cpp'],
+    \   path: 'clangd',
+    \   args: ['--background-index', '--clang-tidy']
+    \ }])
 
 " Verible SystemVerilog Language Server
 call LspAddServer([#{
