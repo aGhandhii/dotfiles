@@ -207,6 +207,9 @@ set nospell
 " Track location of cursor
 set ruler
 
+" Smooth line scrolling with mouse
+set smoothscroll
+
 " Disables flashing and sounds
 set noerrorbells
 set novisualbell
