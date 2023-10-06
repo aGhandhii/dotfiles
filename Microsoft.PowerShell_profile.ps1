@@ -53,14 +53,14 @@ function Get-GitBranchName () {
         if ($branch -eq "HEAD") {
             # Print SHA
             $branch = git rev-parse --short HEAD
-            Write-Host "$branch " -NoNewline -ForegroundColor yellow
+            Write-Host "$branch " -NoNewline -ForegroundColor yellow
         }
-        else {
-            Write-Host "$branch " -NoNewline -ForegroundColor yellow
+        elseif ($branch) {
+            Write-Host "$branch " -NoNewline -ForegroundColor yellow
         }
     } catch {
         # Repo has no branch yet
-        Write-Host "no_branch " -NoNewline -ForegroundColor yellow
+        Write-Host "no_branch " -NoNewline -ForegroundColor yellow
     }
 }
 
@@ -71,10 +71,7 @@ function Get-GitBranchName () {
 
 function prompt {
     # Check for git repo
-    if (Test-Path .git) {
-        Write-Host "" -NoNewline -ForegroundColor yellow
-        Get-GitBranchName
-    }
+    Get-GitBranchName
     Write-Host "$env:USERNAME " -NoNewline -ForegroundColor green
     Write-Host "$env:COMPUTERNAME " -NoNewline -ForegroundColor magenta
     Write-Host "$pwd" -ForegroundColor blue
