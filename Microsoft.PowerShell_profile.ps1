@@ -1,7 +1,7 @@
 <#
 POWERSHELL CONFIG
 Author: Alex Ghandhi
-Last Edited: 9 August 2023
+Last Edited: 5 October 2023
 #>
 
 
@@ -43,20 +43,42 @@ Set-alias -Name grih -Value Get-GitInteractiveRebase    -Force -Option AllScope
 
 # }}}
 
+
+# UTILITY FUNCTIONS
+# {{{
+
+function Get-GitBranchName () {
+    try {
+        $branch = git rev-parse --abbrev-ref HEAD
+        if ($branch -eq "HEAD") {
+            # Print SHA
+            $branch = git rev-parse --short HEAD
+            Write-Host "$branch " -NoNewline -ForegroundColor yellow
+        }
+        else {
+            Write-Host "$branch " -NoNewline -ForegroundColor yellow
+        }
+    } catch {
+        # Repo has no branch yet
+        Write-Host "no_branch " -NoNewline -ForegroundColor yellow
+    }
+}
+
+# }}}
+
 # CUSTOM PROMPT
 # {{{
 
-#function prompt {
-#    # Place components of the prompt into variables
-#    $curr_dir = $ExecutionContext.SessionState.Path.CurrentLocation.Path
-#    if ($curr_dir.Length -eq 0) {
-#        $curr_dir = $ExecutionContext.SessionState.Drive.Current.Name+":\"
-#    }
-#
-#    Write-Host "$env:USERNAME" -NoNewline
-#    Write-Host "$env:COMPUTERNAME" -NoNewline
-#    Write-Host "$curr_dir"
-#    "-> "
-#}
+function prompt {
+    # Check for git repo
+    if (Test-Path .git) {
+        Write-Host "" -NoNewline -ForegroundColor yellow
+        Get-GitBranchName
+    }
+    Write-Host "$env:USERNAME " -NoNewline -ForegroundColor green
+    Write-Host "$env:COMPUTERNAME " -NoNewline -ForegroundColor magenta
+    Write-Host "$pwd" -ForegroundColor blue
+    "-> "
+}
 
 # }}}
