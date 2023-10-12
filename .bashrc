@@ -23,7 +23,6 @@ alias cls="clear; ls -a --color=auto"
 
 # Git Shortcuts {{{
 
-alias gro="git rebase origin"
 alias grph="git rev-parse HEAD"
 
 function gs() {
@@ -55,6 +54,11 @@ function gc() {
     git commit "$@"
 }
 export -f gc
+
+function gr() {
+    git rebase "$@"
+}
+export -f gr
 
 function grih() {
     git rebase -i HEAD~"$1"

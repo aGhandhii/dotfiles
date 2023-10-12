@@ -1,7 +1,7 @@
 <#
 POWERSHELL CONFIG
 Author: Alex Ghandhi
-Last Edited: 5 October 2023
+Last Edited: 12 October 2023
 #>
 
 
@@ -26,7 +26,7 @@ function Get-GitBranch              { & git branch $args }
 function Get-GitAdd                 { & git add $args }
 function Get-GitCommit              { & git commit $args }
 function Get-GitPush                { & git push $args }
-function Get-GitRebaseOrigin        { & git rebase origin $args }
+function Get-GitRebase              { & git rebase $args }
 function Get-GitRevParse            { & git rev-parse HEAD $args }
 function Get-GitInteractiveRebase   { & git rebase -i HEAD~$args }
 
@@ -37,7 +37,7 @@ Set-Alias -Name gb   -Value Get-GitBranch               -Force -Option AllScope
 Set-alias -Name ga   -Value Get-GitAdd                  -Force -Option AllScope
 Set-alias -Name gc   -Value Get-GitCommit               -Force -Option AllScope
 Set-alias -Name gp   -Value Get-GitPush                 -Force -Option AllScope
-Set-alias -Name gro  -Value Get-GitRebaseOrigin         -Force -Option AllScope
+Set-alias -Name gr   -Value Get-GitRebase               -Force -Option AllScope
 Set-alias -Name grph -Value Get-GitRevParse             -Force -Option AllScope
 Set-alias -Name grih -Value Get-GitInteractiveRebase    -Force -Option AllScope
 
@@ -66,11 +66,11 @@ function Get-GitBranchName () {
 
 # }}}
 
+
 # CUSTOM PROMPT
 # {{{
 
 function prompt {
-    # Check for git repo
     Get-GitBranchName
     Write-Host "$env:USERNAME " -NoNewline -ForegroundColor green
     Write-Host "$env:COMPUTERNAME " -NoNewline -ForegroundColor magenta
