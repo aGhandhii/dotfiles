@@ -2,7 +2,7 @@
 "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 "
 "   -> This setup requires the use of NERD fonts, which are patched fonts that
-"      have a large icon library
+"      include an extended icon library
 "
 "   -> Install a NERD font of your choice at this link:
 "       -> https://www.nerdfonts.com
@@ -57,10 +57,6 @@
 "
 " vim-gitgutter: shows git diff changes in left gutter
 "   -> https://github.com/airblade/vim-gitgutter
-"
-" vim-pydocstring: automatically generate python function docstrings
-"   -> https://github.com/heavenshell/vim-pydocstring
-"   -> requires 'doq', installed with 'pip'
 "
 "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 " }}}
@@ -185,9 +181,13 @@ set foldmethod=marker
 " Enable syntax highlighting
 syntax enable
 
-" Display line numbers
-set relativenumber
+" Display line numbers, and relative line numbers when in insert mode
 set number
+augroup LineNumberType
+    autocmd!
+    autocmd InsertEnter * :set relativenumber
+    autocmd InsertLeave * :set norelativenumber
+augroup END
 
 " Expand command history
 set history=1000
@@ -222,7 +222,7 @@ set expandtab                                                   " Tab is turned 
 set shiftround                                                  " Round indentation to multiples of 'shiftwidth'
 set backspace=indent,eol,start                                  " Backspacing includes indentation
 set autoindent                                                  " Remember indentation on newline
-au FileType * set fo-=c fo-=r fo-=o                             " Prevent auto-commentation on newline
+autocmd FileType * set fo-=c fo-=r fo-=o                        " Prevent auto-commentation on newline
 
 " Column highlighting preferences
 set cursorline                                                  " Highlight current line
@@ -266,6 +266,8 @@ set wildmode=list:longest,full                                  " Make wildmenu 
 set wildignore=                                                 " Ignore files with specific extensions
 \ *.docx,
 \ *.jpg,
+\ *.jpeg,
+\ *.heic,
 \ *.png,
 \ *.gif,
 \ *.pdf,
@@ -287,14 +289,27 @@ set laststatus=2
 
 " Status line layout
 " Currently set to work with the Gruvbox8 Colorscheme
-set statusline=                                                 " Clear current status
-set statusline+=%#Special#%{TruncatedBranch()}%#LineNr#\        " Display git branch name
-set statusline+=%#Identifier#\%{GetFileIcon()}\ %f              " Filename
-set statusline+=%#WarningMsg#%{&modified?'*':''}\               " Modified marker
-set statusline+=%=                                              " Move to right side
-set statusline+=%#LineNr#\%{DisplayOS()}\                       " Operating System
-set statusline+=%{&fileencoding}\                               " File encoding type
-set statusline+=%#Constant#\\ %-2l\ \ %-2c%#LineNr#           " Row and column numbers
+function SetStatusLine()
+    if &ft ==# "netrw"
+        setlocal statusline=                                             " Clear current status
+        setlocal statusline+=%#Identifier#\ 󱏒\ %f                        " Indicate Netrw tree
+    else
+        setlocal statusline=                                             " Clear current status
+        setlocal statusline+=%#Special#%{TruncatedBranch()}%#LineNr#\    " Display git branch name
+        setlocal statusline+=%#Identifier#\%{GetFileIcon()}\ %f          " Filename
+        setlocal statusline+=%#WarningMsg#%{&modified?'*':''}\           " Modified marker
+        setlocal statusline+=%=                                          " Move to right side
+        setlocal statusline+=%#LineNr#\%{DisplayOS()}\                   " Operating System
+        setlocal statusline+=%{&fileencoding}\                           " File encoding type
+        setlocal statusline+=%#Constant#\\ %-2l\ \ %-2c%#LineNr#       " Row and column numbers
+    endif
+endfunction
+
+" Update the status line with multiple buffers
+augroup HandleStatusLines
+    autocmd!
+    autocmd VimEnter,WinEnter,BufEnter * set statusline= | setlocal statusline=%!SetStatusLine()
+augroup end
 
 "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 " }}}
@@ -315,11 +330,11 @@ let g:netrw_preview=1                                           " Show preview i
 autocmd BufWritePost * GitGutter                                " Update gitgutter more often
 autocmd CmdwinLeave * GitGutter
 autocmd WinEnter * GitGutter
-let g:gitgutter_sign_added='█'                                  " Make gitgutter look uniform
-let g:gitgutter_sign_modified='█'
-let g:gitgutter_sign_removed='█'
-let g:gitgutter_sign_removed_first_line='█'
-let g:gitgutter_sign_modified_removed='█'
+let g:gitgutter_sign_added='██'                                  " Make gitgutter look uniform
+let g:gitgutter_sign_modified='██'
+let g:gitgutter_sign_removed='██'
+let g:gitgutter_sign_removed_first_line='██'
+let g:gitgutter_sign_modified_removed='██'
 
 " Configure indentLine
 let g:indentLine_char = ''
@@ -330,11 +345,6 @@ let g:rainbow_active = 1
 " Configure fuzzyy
 let g:fuzzyy_devicons = 0                                       " Disable devicons
 let g:files_respect_gitignore = 1                               " Respect GitIgnore
-
-" Configure pydocstring
-let g:pydocstring_formatter = 'google'
-let g:pydocstring_doq_path = 'C:/Users/ghand/AppData/Local/Programs/Python/Python311/Scripts/doq.exe'
-let g:pydocstring_enable_mapping = 0
 
 "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 " }}}
@@ -349,8 +359,6 @@ nnoremap <silent> t :Lexplore<CR>
 nnoremap <silent> <C-f> :FuzzyGrep<CR>
 " Open a new tab
 nnoremap <silent> <C-t> :tabnew<CR>
-" Toggle Relative Line Number
-nnoremap <silent> <F1> :set relativenumber!<CR>
 " Change Buffer
 nnoremap <silent> <A-Left> :bp<CR>
 nnoremap <silent> <A-Right> :bn<CR>
@@ -368,6 +376,7 @@ noremap <S-h> 5zh
 noremap <S-Right> 5zl
 noremap <S-l> 5zl
 " Tab Completion
+inoremap <C-b> <C-n>
 inoremap <silent><expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
 inoremap <silent><expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 inoremap <silent><expr> <Down> pumvisible() ? "\<C-n>" : "\<Down>"
