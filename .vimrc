@@ -431,7 +431,8 @@ function ShowLspInfo()
     let summary = lsp#lsp#ErrorCount()
     let LspInfoString = ''
     if summary['Info'] != 0
-        let LspInfoString = LspInfoString . '  ' . summary['Info'] . ' '
+        "let LspInfoString = LspInfoString . ' ' . summary['Info']
+        let LspInfoString = LspInfoString . '  '
     endif
     return LspInfoString
 endfunction
@@ -439,7 +440,8 @@ function ShowLspHint()
     let summary = lsp#lsp#ErrorCount()
     let LspHintString = ''
     if summary['Hint'] != 0
-        let LspHintString = LspHintString . '  ' . summary['Hint'] . ' '
+        "let LspHintString = LspHintString . ' ' . summary['Hint']
+        let LspHintString = LspHintString . '  '
     endif
     return LspHintString
 endfunction
@@ -447,7 +449,8 @@ function ShowLspWarning()
     let summary = lsp#lsp#ErrorCount()
     let LspWarnString = ''
     if summary['Warn'] != 0
-        let LspWarnString = LspWarnString . '  ' . summary['Warn'] . ' '
+        "let LspWarnString = LspWarnString . ' ' . summary['Warn']
+        let LspWarnString = LspWarnString . '  '
     endif
     return LspWarnString
 endfunction
@@ -455,7 +458,8 @@ function ShowLspError()
     let summary = lsp#lsp#ErrorCount()
     let LspErrString = ''
     if summary['Error'] != 0
-        let LspErrString = LspErrString . '  ' . summary['Error'] . ' '
+        "let LspErrString = LspErrString . ' ' . summary['Error']
+        let LspErrString = LspErrString . '  '
     endif
     return LspErrString
 endfunction
