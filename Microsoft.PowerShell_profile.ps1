@@ -1,8 +1,5 @@
-<#
-POWERSHELL CONFIG
-Author: Alex Ghandhi
-Last Edited: 12 October 2023
-#>
+# POWERSHELL CONFIG
+# Author: Alex Ghandhi
 
 
 # ALIASES

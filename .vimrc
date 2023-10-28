@@ -114,7 +114,7 @@ call LspOptionsSet(#{
     \   useBufferCompletion: v:true,
     \ })
 
-" pylsp Python Language Server
+" PyLSP Python Language Server
 call LspAddServer([#{
     \   name: 'pylsp',
     \   filetype: 'python',
@@ -292,7 +292,7 @@ set laststatus=2
 function SetStatusLine()
     if &ft ==# "netrw"
         setlocal statusline=                                             " Clear current status
-        setlocal statusline+=%#Identifier#\ 󱏒\ %f                        " Indicate Netrw tree
+        setlocal statusline+=%#Include#\ 󱏒\ %f                        " Indicate Netrw tree
     else
         setlocal statusline=                                             " Clear current status
         setlocal statusline+=%#Special#%{TruncatedBranch()}%#LineNr#\    " Display git branch name
