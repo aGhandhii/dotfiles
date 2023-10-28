@@ -22,4 +22,8 @@ Status lines also dynamically change on a per-buffer basis:
 
 ![image](https://github.com/aGhandhii/dotfiles/assets/110639969/64e949ff-b9a5-4f0d-951b-ff85400accd0)
 
+LSP Diagnostics are available on supported filetypes:
+
+![image](https://github.com/aGhandhii/dotfiles/assets/110639969/ce4b2496-35cc-4986-a502-1f0a0c8eb162)
+
 </div>
