@@ -292,13 +292,17 @@ set laststatus=2
 function SetStatusLine()
     if &ft ==# "netrw"
         setlocal statusline=                                             " Clear current status
-        setlocal statusline+=%#Include#\ 󱏒\ %f                        " Indicate Netrw tree
+        setlocal statusline+=%#Include#\ 󱏒\ %f                           " Indicate Netrw tree
     else
         setlocal statusline=                                             " Clear current status
         setlocal statusline+=%#Special#%{TruncatedBranch()}%#LineNr#\    " Display git branch name
         setlocal statusline+=%#Identifier#\%{GetFileIcon()}\ %f          " Filename
         setlocal statusline+=%#WarningMsg#%{&modified?'*':''}\           " Modified marker
         setlocal statusline+=%=                                          " Move to right side
+        setlocal statusline+=%#Include#%{ShowLspInfo()}                  " LSP Info Count
+        setlocal statusline+=%#Identifier#%{ShowLspHint()}               " LSP Hint Count
+        setlocal statusline+=%#Type#%{ShowLspWarning()}                  " LSP Warning Count
+        setlocal statusline+=%#Exception#%{ShowLspError()}               " LSP Error Count
         setlocal statusline+=%#LineNr#\%{DisplayOS()}\                   " Operating System
         setlocal statusline+=%{&fileencoding}\                           " File encoding type
         setlocal statusline+=%#Constant#\\ %-2l\ \ %-2c%#LineNr#       " Row and column numbers
@@ -420,6 +424,40 @@ function DisplayOS()
     else
         return ''
     endif
+endfunction
+
+" Display Language Server Diagnostic Summary on the Statusline
+function ShowLspInfo()
+    let summary = lsp#lsp#ErrorCount()
+    let LspInfoString = ''
+    if summary['Info'] != 0
+        let LspInfoString = LspInfoString . '  ' . summary['Info'] . ' '
+    endif
+    return LspInfoString
+endfunction
+function ShowLspHint()
+    let summary = lsp#lsp#ErrorCount()
+    let LspHintString = ''
+    if summary['Hint'] != 0
+        let LspHintString = LspHintString . '  ' . summary['Hint'] . ' '
+    endif
+    return LspHintString
+endfunction
+function ShowLspWarning()
+    let summary = lsp#lsp#ErrorCount()
+    let LspWarnString = ''
+    if summary['Warn'] != 0
+        let LspWarnString = LspWarnString . '  ' . summary['Warn'] . ' '
+    endif
+    return LspWarnString
+endfunction
+function ShowLspError()
+    let summary = lsp#lsp#ErrorCount()
+    let LspErrString = ''
+    if summary['Error'] != 0
+        let LspErrString = LspErrString . '  ' . summary['Error'] . ' '
+    endif
+    return LspErrString
 endfunction
 
 " Determine file icon for file type
