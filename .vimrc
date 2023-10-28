@@ -356,7 +356,7 @@ let g:files_respect_gitignore = 1                               " Respect GitIgn
 " Open netrw File Explorer
 nnoremap <silent> t :Lexplore<CR>
 " Open Fuzzyy Text Search
-nnoremap <silent> <C-f> :FuzzyGrep<CR>
+nnoremap <silent> <C-f> :FuzzyInBuffer<CR>
 " Open a new tab
 nnoremap <silent> <C-t> :tabnew<CR>
 " Change Buffer
@@ -364,6 +364,7 @@ nnoremap <silent> <A-Left> :bp<CR>
 nnoremap <silent> <A-Right> :bn<CR>
 " Close a Buffer, not a Window
 nnoremap <silent> q :bp<bar>sp<bar>bn<bar>bd<CR>
+
 " Better Scrolling
 noremap <S-k> <S-Up>
 noremap <S-j> <S-Down>
@@ -373,15 +374,20 @@ noremap <C-Down> 5<C-e>
 noremap <C-j> 5<C-e>
 noremap <S-Left> 5zh
 noremap <S-h> 5zh
+noremap <C-ScrollWheelUp> zh
+noremap <C-A-ScrollWheelUp> 5zh
 noremap <S-Right> 5zl
 noremap <S-l> 5zl
+noremap <C-ScrollWheelDown> zl
+noremap <C-A-ScrollWheelDown> 5zl
+
 " Tab Completion
 inoremap <C-b> <C-n>
-inoremap <silent><expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <silent><expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
 inoremap <silent><expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-inoremap <silent><expr> <Down> pumvisible() ? "\<C-n>" : "\<Down>"
-inoremap <silent><expr> <Up> pumvisible() ? "\<C-p>" : "\<Up>"
-inoremap <silent><expr> <CR> pumvisible() ? "\<C-y>" : "\<CR>"
+inoremap <silent><expr> <Down>  pumvisible() ? "\<C-n>" : "\<Down>"
+inoremap <silent><expr> <Up>    pumvisible() ? "\<C-p>" : "\<Up>"
+inoremap <silent><expr> <CR>    pumvisible() ? "\<C-y>" : "\<CR>"
 
 "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 " }}}
