@@ -166,6 +166,14 @@ let g:gruvbox_bold = 1
 let g:gruvbox_italics = 0
 let g:gruvbox_italicize_strings = 0
 "let g:gruvbox_transp_bg = 1
+
+augroup ColorFix
+    autocmd!
+    autocmd ColorScheme * highlight SignColumn guibg=#32302f
+    autocmd ColorScheme * highlight StatusLine guifg=#32302f
+    autocmd ColorScheme * highlight StatusLineNC guifg=#32302f
+augroup END
+
 colorscheme gruvbox8_soft
 
 "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -209,6 +217,9 @@ set ruler
 
 " Smooth line scrolling with mouse
 set smoothscroll
+
+" Character divider for vertical splits
+set fillchars=vert:󱋱
 
 " Disables flashing and sounds
 set noerrorbells
@@ -287,33 +298,81 @@ set wildignore=                                                 " Ignore files w
 " Always show the status line
 set laststatus=2
 
+" FOR CUSTOMIZATION, these are delimiter characters
+" in Insert Mode: (C-v)+u+e0b[0,4,6] -> [,,] 
+
 " Status line layout
 " Currently set to work with the Gruvbox8 Colorscheme
 function SetStatusLine()
     if &ft ==# "netrw"
-        setlocal statusline=                                             " Clear current status
-        setlocal statusline+=%#Include#\ 󱏒\ %f                           " Indicate Netrw tree
+        setlocal statusline=
+        setlocal statusline+=%#Include#\ 
+        setlocal statusline+=%#DiffChange#\󱏒\ Netrw
+        setlocal statusline+=%#Include#\
     else
-        setlocal statusline=                                             " Clear current status
-        setlocal statusline+=%#Special#%{TruncatedBranch()}%#LineNr#\    " Display git branch name
-        setlocal statusline+=%#Identifier#\%{GetFileIcon()}\ %f          " Filename
-        setlocal statusline+=%#WarningMsg#%{&modified?'*':''}\           " Modified marker
-        setlocal statusline+=%=                                          " Move to right side
-        setlocal statusline+=%#Include#%{ShowLspInfo()}                  " LSP Info Count
-        setlocal statusline+=%#Identifier#%{ShowLspHint()}               " LSP Hint Count
-        setlocal statusline+=%#Type#%{ShowLspWarning()}                  " LSP Warning Count
-        setlocal statusline+=%#Exception#%{ShowLspError()}               " LSP Error Count
-        setlocal statusline+=%#LineNr#\%{DisplayOS()}\                   " Operating System
-        setlocal statusline+=%{&fileencoding}\                           " File encoding type
-        setlocal statusline+=%#Constant#\\ %-2l\ \ %-2c%#LineNr#       " Row and column numbers
+        " Clear Status Line
+        setlocal statusline=
+
+        " Git Branch
+        setlocal statusline+=%#Special#%{TruncatedBranch()==''?'':''}
+        setlocal statusline+=%#IncSearch#%{TruncatedBranch()}%#LineNr#
+        setlocal statusline+=%#Special#%{TruncatedBranch()==''?'':''}\ 
+
+        " Filename
+        setlocal statusline+=%#Identifier#
+        setlocal statusline+=%#InsertMode#\%{GetFileIcon()}\ %f
+        setlocal statusline+=%{&modified?'*':''}
+        setlocal statusline+=%#Identifier#\
+
+        " Switch to the Right Side
+        setlocal statusline+=%=
+
+        " Language Server Diagnostics
+
+        " Info
+        setlocal statusline+=%#Include#%{ShowLspInfo()!=''?'':''}
+        setlocal statusline+=%#DiffChange#%{ShowLspInfo()}
+        setlocal statusline+=%#Include#%{ShowLspInfoEnd()}
+
+        " Hints
+        setlocal statusline+=%#Identifier#%{ShowLspHint()!=''?'':''}
+        setlocal statusline+=%#InsertMode#%{ShowLspHint()}
+        setlocal statusline+=%#Identifier#%{ShowLspHintEnd()}
+
+        " Warnings
+        setlocal statusline+=%#Type#%{ShowLspWarning()!=''?'':''}
+        setlocal statusline+=%#Search#%{ShowLspWarning()}
+        setlocal statusline+=%#Type#%{ShowLspWarningEnd()}
+
+        " Errors
+        setlocal statusline+=%#Exception#%{ShowLspError()!=''?'':''}
+        setlocal statusline+=%#ErrorMsg#%{ShowLspError()}
+        setlocal statusline+=%#Exception#%{ShowLspErrorEnd()}
+
+        " Operating System and File Encoding
+        setlocal statusline+=%#LineNr#
+        setlocal statusline+=%#PMenuThumb#
+        highlight PMenuThumb guifg=#32302f
+        setlocal statusline+=%{DisplayOS()}
+        if &filetype != ""
+            setlocal statusline+=\ \%{&fileencoding}
+        endif
+        setlocal statusline+=%#LineNr#\
+
+        " Row and Column
+        setlocal statusline+=%#Constant#\ 
+        setlocal statusline+=%#CommandMode#
+        setlocal statusline+=\\ %-2l\ \ %-2c
+        setlocal statusline+=%#Constant#\
+
     endif
 endfunction
 
 " Update the status line with multiple buffers
 augroup HandleStatusLines
     autocmd!
-    autocmd VimEnter,WinEnter,BufEnter * set statusline= | setlocal statusline=%!SetStatusLine()
-augroup end
+    autocmd VimEnter,WinEnter,BufEnter,BufWritePost * set statusline= | setlocal statusline=%!SetStatusLine()
+augroup END
 
 "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 " }}}
@@ -334,11 +393,13 @@ let g:netrw_preview=1                                           " Show preview i
 autocmd BufWritePost * GitGutter                                " Update gitgutter more often
 autocmd CmdwinLeave * GitGutter
 autocmd WinEnter * GitGutter
-let g:gitgutter_sign_added='██'                                  " Make gitgutter look uniform
-let g:gitgutter_sign_modified='██'
-let g:gitgutter_sign_removed='██'
-let g:gitgutter_sign_removed_first_line='██'
-let g:gitgutter_sign_modified_removed='██'
+let g:gitgutter_sign_added=''
+let g:gitgutter_sign_modified=''
+let g:gitgutter_sign_removed=''
+let g:gitgutter_sign_removed_first_line=''
+let g:gitgutter_sign_removed_above_and_below =''
+let g:gitgutter_sign_modified_removed=''
+"set signcolumn=number
 
 " Configure indentLine
 let g:indentLine_char = ''
@@ -378,12 +439,10 @@ noremap <C-Down> 5<C-e>
 noremap <C-j> 5<C-e>
 noremap <S-Left> 5zh
 noremap <S-h> 5zh
-noremap <C-ScrollWheelUp> zh
-noremap <C-A-ScrollWheelUp> 5zh
+noremap <C-ScrollWheelUp> 5zh
 noremap <S-Right> 5zl
 noremap <S-l> 5zl
-noremap <C-ScrollWheelDown> zl
-noremap <C-A-ScrollWheelDown> 5zl
+noremap <C-ScrollWheelDown> 5zl
 
 " Tab Completion
 inoremap <C-b> <C-n>
@@ -404,11 +463,11 @@ inoremap <silent><expr> <CR>    pumvisible() ? "\<C-y>" : "\<CR>"
 function TruncatedBranch()
     let branch = gitbranch#name()
     if strlen(branch) > 50
-        return "   " . strpart(branch, 0, 50)
+        return "  " . strpart(branch, 0, 50)
     elseif strlen(branch) == 0
         return ""
     endif
-    return "   " . branch
+    return "  " . branch
 endfunction
 
 " Display the current operating system
@@ -427,41 +486,69 @@ function DisplayOS()
 endfunction
 
 " Display Language Server Diagnostic Summary on the Statusline
+
+" Information
 function ShowLspInfo()
     let summary = lsp#lsp#ErrorCount()
     let LspInfoString = ''
     if summary['Info'] != 0
-        "let LspInfoString = LspInfoString . ' ' . summary['Info']
-        let LspInfoString = LspInfoString . '  '
+        let LspInfoString = LspInfoString . ' ' . summary['Info']
     endif
     return LspInfoString
 endfunction
+function ShowLspInfoEnd()
+    if ShowLspInfo()==''
+        return ''
+    endif
+    return ' '
+endfunction
+
+" Hints
 function ShowLspHint()
     let summary = lsp#lsp#ErrorCount()
     let LspHintString = ''
     if summary['Hint'] != 0
-        "let LspHintString = LspHintString . ' ' . summary['Hint']
-        let LspHintString = LspHintString . '  '
+        let LspHintString = LspHintString . ' ' . summary['Hint']
     endif
     return LspHintString
 endfunction
+function ShowLspHintEnd()
+    if ShowLspHint()==''
+        return ''
+    endif
+    return ' '
+endfunction
+
+" Warnings
 function ShowLspWarning()
     let summary = lsp#lsp#ErrorCount()
     let LspWarnString = ''
     if summary['Warn'] != 0
-        "let LspWarnString = LspWarnString . ' ' . summary['Warn']
-        let LspWarnString = LspWarnString . '  '
+        let LspWarnString = LspWarnString . ' ' . summary['Warn']
     endif
     return LspWarnString
 endfunction
+function ShowLspWarningEnd()
+    if ShowLspWarning()==''
+        return ''
+    endif
+    return ' '
+endfunction
+
+" Errors
 function ShowLspError()
     let summary = lsp#lsp#ErrorCount()
     let LspErrString = ''
     if summary['Error'] != 0
-        "let LspErrString = LspErrString . ' ' . summary['Error']
-        let LspErrString = LspErrString . '  '
+        let LspErrString = LspErrString . ' ' . summary['Error']
     endif
     return LspErrString
+endfunction
+function ShowLspErrorEnd()
+    if ShowLspError()==''
+        return ''
+    endif
+    return ' '
 endfunction
 
 " Determine file icon for file type
