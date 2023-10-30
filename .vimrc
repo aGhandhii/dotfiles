@@ -84,10 +84,10 @@ call LspOptionsSet(#{
     \   completionTextEdit: v:true,
     \   completionKinds: {},
     \   customCompletionKinds: v:false,
-    \   diagSignErrorText: '',
-    \   diagSignInfoText: '',
-    \   diagSignHintText: '',
-    \   diagSignWarningText: '',
+    \   diagSignErrorText: '',
+    \   diagSignInfoText: '',
+    \   diagSignHintText: '',
+    \   diagSignWarningText: '',
     \   diagVirtualTextAlign: 'above',
     \   echoSignature: v:false,
     \   hideDisabledCodeActions: v:false,
@@ -172,6 +172,10 @@ augroup ColorFix
     autocmd ColorScheme * highlight SignColumn guibg=#32302f
     autocmd ColorScheme * highlight StatusLine guifg=#32302f
     autocmd ColorScheme * highlight StatusLineNC guifg=#32302f
+    autocmd ColorScheme * highlight! link LspDiagSignErrorText Exception
+    autocmd ColorScheme * highlight! link LspDiagSignHintText Identifier
+    autocmd ColorScheme * highlight! link LspDiagSignInfoText Include
+    autocmd ColorScheme * highlight! link LspDiagSignWarningText Type
 augroup END
 
 colorscheme gruvbox8_soft
@@ -353,17 +357,14 @@ function SetStatusLine()
         setlocal statusline+=%#LineNr#
         setlocal statusline+=%#PMenuThumb#
         highlight PMenuThumb guifg=#32302f
-        setlocal statusline+=%{DisplayOS()}
-        if &filetype != ""
-            setlocal statusline+=\ \%{&fileencoding}
-        endif
+        setlocal statusline+=%{DisplayOS()}\%{FileEncodeSpace()}\%{&fileencoding}
         setlocal statusline+=%#LineNr#\
 
         " Row and Column
         setlocal statusline+=%#Constant#\ 
         setlocal statusline+=%#CommandMode#
         setlocal statusline+=\\ %-2l\ \ %-2c
-        setlocal statusline+=%#Constant#\
+        setlocal statusline+=%#Constant#
 
     endif
 endfunction
@@ -410,6 +411,7 @@ let g:rainbow_active = 1
 " Configure fuzzyy
 let g:fuzzyy_devicons = 0                                       " Disable devicons
 let g:files_respect_gitignore = 1                               " Respect GitIgnore
+let g:enable_fuzzyy_MRU_files = 1                               " Store recent files
 
 "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 " }}}
@@ -431,18 +433,18 @@ nnoremap <silent> <A-Right> :bn<CR>
 nnoremap <silent> q :bp<bar>sp<bar>bn<bar>bd<CR>
 
 " Better Scrolling
-noremap <S-k> <S-Up>
-noremap <S-j> <S-Down>
-noremap <C-Up> 5<C-y>
-noremap <C-k>  5<C-y>
-noremap <C-Down> 5<C-e>
-noremap <C-j> 5<C-e>
-noremap <S-Left> 5zh
-noremap <S-h> 5zh
-noremap <C-ScrollWheelUp> 5zh
-noremap <S-Right> 5zl
-noremap <S-l> 5zl
-noremap <C-ScrollWheelDown> 5zl
+noremap <silent> <S-k> <S-Up>
+noremap <silent> <S-j> <S-Down>
+noremap <silent> <C-Up> 5<C-y>
+noremap <silent> <C-k>  5<C-y>
+noremap <silent> <C-Down> 5<C-e>
+noremap <silent> <C-j> 5<C-e>
+noremap <silent> <S-Left> 5zh
+noremap <silent> <S-h> 5zh
+noremap <silent> <C-ScrollWheelUp> 5zh
+noremap <silent> <S-Right> 5zl
+noremap <silent> <S-l> 5zl
+noremap <silent> <C-ScrollWheelDown> 5zl
 
 " Tab Completion
 inoremap <C-b> <C-n>
@@ -483,6 +485,14 @@ function DisplayOS()
     else
         return ''
     endif
+endfunction
+
+" Get file encoding spacing for the status line
+function FileEncodeSpace()
+    if &fileencoding!=''
+        return ' '
+    endif
+    return ''
 endfunction
 
 " Display Language Server Diagnostic Summary on the Statusline
