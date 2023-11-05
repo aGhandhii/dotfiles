@@ -324,7 +324,7 @@ function SetStatusLine()
 
         " Filename
         setlocal statusline+=%#Identifier#
-        setlocal statusline+=%#InsertMode#\%{GetFileIcon()}\ %f
+        setlocal statusline+=%#InsertMode#\%{WebDevIconsGetFileTypeSymbol()}\ %f
         setlocal statusline+=%{&modified?'*':''}
         setlocal statusline+=%#Identifier#\
 
@@ -400,6 +400,7 @@ let g:gitgutter_sign_removed=''
 let g:gitgutter_sign_removed_first_line=''
 let g:gitgutter_sign_removed_above_and_below =''
 let g:gitgutter_sign_modified_removed=''
+let g:gitgutter_sign_priority = 0
 "set signcolumn=number
 
 " Configure indentLine
@@ -409,7 +410,7 @@ let g:indentLine_char = ''
 let g:rainbow_active = 1
 
 " Configure fuzzyy
-let g:fuzzyy_devicons = 0                                       " Disable devicons
+let g:fuzzyy_devicons = 1                                       " Enable devicons
 let g:files_respect_gitignore = 1                               " Respect GitIgnore
 let g:enable_fuzzyy_MRU_files = 1                               " Store recent files
 
@@ -572,10 +573,42 @@ function GetFileIcon()
     return ''
 endfunction
 
+" Determine file icon for file type
+" Code modified from vim-devicons for compatibility with fuzzyy plugin
+function! WebDevIconsGetFileTypeSymbol(...) abort
+
+    " Check for args and store file extension and name
+    if a:0 == 0
+        let fileNode = expand('%:t')
+        let fileNodeExtension = !empty(expand('%:e')) ? expand('%:e') : &filetype
+    else
+        let fileNode = fnamemodify(a:1, ':t')
+        let fileNodeExtension = fnamemodify(a:1, ':e')
+    endif
+
+    " Set symbol default and prevent case sensitivity errors
+    let symbol = ''
+    let fileNode = tolower(fileNode)
+    let fileNodeExtension = tolower(fileNodeExtension)
+  
+    " Check for a match in the glyph dictionary
+    if has_key(g:file_icons, fileNode)
+        let symbol = g:file_icons[fileNode]
+    elseif has_key(g:file_icons, fileNodeExtension)
+        let symbol = g:file_icons[fileNodeExtension]
+    endif
+
+    " Return the icon
+    return symbol
+
+endfunction
+
 " Icon references
 let g:file_icons = {
     \ 'sv'                : '󰘚',
     \ 'v'                 : '󰘚',
+    \ 's'                 : '',
+    \ 'arm'               : '',
     \ 'styl'              : '',
     \ 'sass'              : '',
     \ 'scss'              : '',
@@ -686,13 +719,13 @@ let g:file_icons = {
     \ 'tsx'               : '',
     \ 'jl'                : '',
     \ 'pp'                : '',
-    \ 'vue'               : '﵂',
     \ 'elm'               : '',
     \ 'swift'             : '',
     \ 'xcplayground'      : '',
     \ 'tex'               : 'ﭨ',
     \ 'r'                 : '󰟔',
     \ 'rproj'             : '󰟔',
+    \ 'readme.md'         : '',
     \ 'gruntfile.coffee'  : '',
     \ 'gruntfile.js'      : '',
     \ 'gruntfile.ls'      : '',
@@ -726,6 +759,7 @@ let g:file_icons = {
     \ 'config.ru'         : '',
     \ 'gemfile'           : '',
     \ 'makefile'          : '',
+    \ 'do'                : '',
     \ 'cmakelists.txt'    : '',
     \ 'robots.txt'        : 'ﮧ'
     \}

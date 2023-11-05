@@ -10,6 +10,14 @@ Set-Alias -Name :q -Value Get-QuickExit -Force -Option AllScope
 Set-Alias -Name c -Value clear
 Set-Alias -Name vi -Value vim
 
+# Bash-like 'ls'
+function List         { If (Get-Command lsd) { & lsd }    Else { & Get-ChildItem } }
+function ListAll      { If (Get-Command lsd) { & lsd -a } Else { & Get-ChildItem } }
+function ListDetailed { If (Get-Command lsd) { & lsd -l } Else { & Get-ChildItem } }
+Set-Alias -Name ls -Value List
+Set-Alias -Name la -Value ListAll
+Set-Alias -Name ll -Value ListDetailed
+
 # }}}
 
 

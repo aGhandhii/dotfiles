@@ -14,10 +14,14 @@ export TERM=xterm-256color
 # General
 alias :q="exit"
 alias c=clear
-alias ls="ls --color=auto"
-alias la="ls -a --color=auto"
-alias ll="ls -l --color=auto"
-alias cls="clear; ls -a --color=auto"
+# alias ls="ls --color=auto"
+# alias la="ls -a --color=auto"
+# alias ll="ls -l --color=auto"
+# alias cls="clear; ls -a --color=auto"
+alias ls="lsd"
+alias la="lsd -a"
+alias ll="lsd -l"
+alias cls="clear; lsd -a"
 
 #}}}
 
