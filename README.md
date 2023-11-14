@@ -26,17 +26,17 @@ Status lines also dynamically change on a per-buffer basis:
 
 ### Current Plugins
 
-Name | Description
----  | ---
-[fuzzyy](https://github.com/Donaldttt/fuzzyy)                       | In-program fuzzy finder
-[indentLine](https://github.com/Yggdroot/indentLine)                | Shows vertical indendation bars
-[rainbow](https://github.com/luochen1990/rainbow)                   | Bracket colorizer
-[vim-auto-highlight](https://github.com/obxhdx/vim-auto-highlight)  | Highlights matching words in Normal mode
-[vim-cpp-modern](https://github.com/bfrg/vim-cpp-modern)            | Improved syntax highlighting for C/C++
-[vim-gitbranch](https://github.com/itchyny/vim-gitbranch)           | Gets the name of the current branch, used for the status line
-[vim-gitgutter](https://github.com/airblade/vim-gitgutter)          | Shows git diff changes in left gutter
-[lsp](https://github.com/yegappan/lsp)                              | Vim9Script Language Server compatibility layer
-[vim-gruvbox8](https://github.com/lifepillar/vim-gruvbox8)          | A retro-themed low-contrast colorscheme
+Name | Location | Description
+---  | ---      | ---
+[fuzzyy](https://github.com/Donaldttt/fuzzyy)                       | ...\start\ | In-program fuzzy finder
+[indentLine](https://github.com/Yggdroot/indentLine)                | ...\start\ | Shows vertical indendation bars
+[rainbow](https://github.com/luochen1990/rainbow)                   | ...\start\ | Bracket colorizer
+[vim-auto-highlight](https://github.com/obxhdx/vim-auto-highlight)  | ...\start\ | Highlights matching words in Normal mode
+[vim-cpp-modern](https://github.com/bfrg/vim-cpp-modern)            | ...\start\ | Improved syntax highlighting for C/C++
+[vim-gitbranch](https://github.com/itchyny/vim-gitbranch)           | ...\start\ | Gets the name of the current branch, used for the status line
+[vim-gitgutter](https://github.com/airblade/vim-gitgutter)          | ...\start\ | Shows git diff changes in left gutter
+[lsp](https://github.com/yegappan/lsp)                              | ...\opt\   | Vim9Script Language Server compatibility layer
+[vim-gruvbox8](https://github.com/lifepillar/vim-gruvbox8)          | ...\opt\   | A retro-themed low-contrast colorscheme
 
 ### Updating Plugins
 
