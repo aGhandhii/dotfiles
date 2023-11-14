@@ -38,4 +38,10 @@ Name | Description
 [lsp](https://github.com/yegappan/lsp)                              | Vim9Script Language Server compatibility layer
 [vim-gruvbox8](https://github.com/lifepillar/vim-gruvbox8)          | A retro-themed low-contrast colorscheme
 
+### Updating Plugins
+
+The `updatePlugins` scripts can be used to quickly update all plugins.
+
+To use, place the scripts in `~/.vim/pack/plugins/` then call the script corresponding to your shell.
+
 </div>
