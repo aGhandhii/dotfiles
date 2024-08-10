@@ -11,7 +11,6 @@ export TERM=xterm-256color
 
 # ALIASES: {{{
 
-# General
 alias :q="exit"
 alias c=clear
 # alias ls="ls --color=auto"
@@ -25,7 +24,7 @@ alias cls="clear; lsd -a"
 
 #}}}
 
-# Git Shortcuts {{{
+# GIT SHORTCUTS {{{
 
 alias grph="git rev-parse HEAD"
 

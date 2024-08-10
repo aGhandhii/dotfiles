@@ -4,9 +4,8 @@
 "   -> This setup requires the use of NERD fonts, which are patched fonts that
 "      include an extended icon library
 "
-"   -> Install a NERD font of your choice at this link:
+"   -> Install a NERD font at this link:
 "       -> https://www.nerdfonts.com
-"       -> Be sure to change your terminal preferences to use this font
 "
 "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 " }}}
@@ -29,7 +28,10 @@
 
 " CURRENT PLUGINS: {{{
 "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-"
+
+" Explicitly declare plugin path
+set packpath+=$HOME/.vim
+
 " PLACE PLUGINS IN ../.vim/pack/plugins/start/
 "
 " TO INSTALL
@@ -115,28 +117,44 @@ call LspOptionsSet(#{
     \ })
 
 " PyLSP Python Language Server
-call LspAddServer([#{
-    \   name: 'pylsp',
-    \   filetype: 'python',
-    \   path: 'pylsp',
-    \   args: []
-    \ }])
+if executable ('pylsp')
+    call LspAddServer([#{
+        \   name: 'pylsp',
+        \   filetype: 'python',
+        \   path: 'pylsp',
+        \   args: []
+        \ }])
+endif
 
 " Clangd C/C++ Language Server
-call LspAddServer([#{
-    \   name: 'clangd',
-    \   filetype: ['c', 'cpp'],
-    \   path: 'clangd',
-    \   args: ['--background-index', '--clang-tidy']
-    \ }])
+if executable ('clangd')
+    call LspAddServer([#{
+        \   name: 'clangd',
+        \   filetype: ['c', 'cpp'],
+        \   path: 'clangd',
+        \   args: ['--background-index', '--clang-tidy']
+        \ }])
+endif
 
 " Verible SystemVerilog Language Server
-call LspAddServer([#{
-    \   name: 'verible-verilog-ls',
-    \   filetype: ['systemverilog', 'verilog'],
-    \   path: 'verible-verilog-ls',
-    \   args: ['--rules_config_search']
-    \ }])
+if executable('verible-verilog-ls')
+    call LspAddServer([#{
+        \   name: 'verible-verilog-ls',
+        \   filetype: ['systemverilog', 'verilog'],
+        \   path: 'verible-verilog-ls',
+        \   args: ['--rules_config_search']
+        \ }])
+endif
+
+" Veridian SystemVerilog Language Server
+if executable('veridian-ls')
+    call LspAddServer([#{
+        \   name: 'veridian-ls',
+        \   filetype: ['systemverilog', 'verilog'],
+        \   path: 'veridian',
+        \   args: []
+        \ }])
+endif
 
 "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 " }}}
@@ -195,11 +213,6 @@ syntax enable
 
 " Display line numbers, and relative line numbers when in insert mode
 set number
-augroup LineNumberType
-    autocmd!
-    autocmd InsertEnter * :set relativenumber
-    autocmd InsertLeave * :set norelativenumber
-augroup END
 
 " Expand command history
 set history=1000
@@ -207,8 +220,12 @@ set history=1000
 " Use UTF-8 encoding
 set encoding=utf-8
 
-" Use system clipboard (COMMENT OUT ON WINDOWS)
-"set clipboard=unnamedplus
+" Use system clipboard
+if has('win32')
+    set clipboard=unnamed
+else
+    set clipboard=unnamedplus
+endif
 
 " Update screen more frequently
 set updatetime=50
@@ -228,6 +245,7 @@ set fillchars=vert:󱋱
 " Disables flashing and sounds
 set noerrorbells
 set novisualbell
+set belloff=all
 
 " Indentation settings
 set shiftwidth=4                                                " Define shift spacing
@@ -401,7 +419,6 @@ let g:gitgutter_sign_removed_first_line=''
 let g:gitgutter_sign_removed_above_and_below =''
 let g:gitgutter_sign_modified_removed=''
 let g:gitgutter_sign_priority = 0
-"set signcolumn=number
 
 " Configure indentLine
 let g:indentLine_char = ''
@@ -422,7 +439,7 @@ let g:enable_fuzzyy_MRU_files = 1                               " Store recent f
 "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 " Open netrw File Explorer
-nnoremap <silent> t :Lexplore<CR>
+nnoremap <silent> <Leader>t :Lexplore<CR>
 " Open Fuzzyy Text Search
 nnoremap <silent> <C-f> :FuzzyInBuffer<CR>
 " Open a new tab
