@@ -2,6 +2,12 @@
 
 # Configuration Files
 
+## Quick Install
+
+Linux: use linuxInstall.sh
+
+TODO: make windowsInstall.ps1
+
 ## Shell Config
 
 All shells use [lsDeluxe](https://github.com/lsd-rs/lsd) for icons/colorizing and [RipGrep](https://github.com/BurntSushi/ripgrep) for improved searching
