@@ -34,11 +34,6 @@ set packpath+=$HOME/.vim
 
 " PLACE PLUGINS IN ../.vim/pack/plugins/start/
 "
-" TO INSTALL
-"   -> cd into the appropriate directory
-"   -> git clone <plugin url>
-"   -> use 'git pull' to update
-"
 " fuzzyy: in-program fuzzy finder
 "   -> https://github.com/Donaldttt/fuzzyy
 "
