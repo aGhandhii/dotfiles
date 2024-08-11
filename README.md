@@ -4,9 +4,9 @@
 
 ## Quick Install
 
-Linux: use linuxInstall.sh
+Linux: run `linuxInstall.sh`
 
-TODO: make windowsInstall.ps1
+Windows: run `windowsInstall.ps1`
 
 ## Shell Config
 
