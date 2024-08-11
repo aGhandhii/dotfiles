@@ -27,6 +27,9 @@ git clone https://github.com/luochen1990/rainbow
 # vim-auto-highlight: highlights matching words in Normal mode
 git clone https://github.com/obxhdx/vim-auto-highlight
 
+# vimcomplete: a lightweight vim9script autocompletion engine
+git clone https://github.com/girishji/vimcomplete
+
 # vim-cpp-modern: improved syntax highlighting for C/C++
 git clone https://github.com/bfrg/vim-cpp-modern
 

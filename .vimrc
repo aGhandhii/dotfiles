@@ -46,6 +46,9 @@ set packpath+=$HOME/.vim
 " vim-auto-highlight: highlights matching words in Normal mode
 "   -> https://github.com/obxhdx/vim-auto-highlight
 "
+" vimcomplete: a lightweight vim9script autocompletion engine
+"   -> https://github.com/girishji/vimcomplete
+"
 " vim-cpp-modern: improved syntax highlighting for C/C++
 "   -> https://github.com/bfrg/vim-cpp-modern
 "
