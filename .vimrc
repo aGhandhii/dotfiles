@@ -52,9 +52,6 @@ set packpath+=$HOME/.vim
 " vim-cpp-modern: improved syntax highlighting for C/C++
 "   -> https://github.com/bfrg/vim-cpp-modern
 "
-" vim-gitbranch: gets the name of the current branch, used for the status line
-"   -> https://github.com/itchyny/vim-gitbranch
-"
 " vim-gitgutter: shows git diff changes in left gutter
 "   -> https://github.com/airblade/vim-gitgutter
 "
@@ -185,9 +182,6 @@ let g:gruvbox_italicize_strings = 0
 
 augroup ColorFix
     autocmd!
-    autocmd ColorScheme * highlight SignColumn guibg=#32302f
-    autocmd ColorScheme * highlight StatusLine guifg=#32302f
-    autocmd ColorScheme * highlight StatusLineNC guifg=#32302f
     autocmd ColorScheme * highlight! link LspDiagSignErrorText Exception
     autocmd ColorScheme * highlight! link LspDiagSignHintText Identifier
     autocmd ColorScheme * highlight! link LspDiagSignInfoText Include
@@ -262,7 +256,7 @@ set colorcolumn=80,120                                          " Set style line
 " File/Directory settings
 set nobackup                                                    " Stop storing auto backups
 set noswapfile                                                  " Stop creating swap files
-"set autochdir                                                   " Switch working directory to current window
+set autochdir                                                   " Switch working directory to current window
 set hidden                                                      " Ignore saving when switching between tabs
 set confirm                                                     " Skip confirmation when saving and quitting a file
 
@@ -274,7 +268,7 @@ set sidescrolloff=5                                             " Keep lines to 
 set mouse=a                                                     " Allow mouse use
 
 " Search settings
-"set ignorecase                                                  " Ignore capital letters when searching
+set ignorecase                                                  " Ignore capital letters when searching
 set hlsearch                                                    " Allows highlighting during a search
 set showcmd                                                     " Show partial commands in search
 set incsearch                                                   " Incremental searching
@@ -329,6 +323,11 @@ function SetStatusLine()
         setlocal statusline+=%#Include#\ 
         setlocal statusline+=%#DiffChange#\󱏒\ Netrw
         setlocal statusline+=%#Include#\
+    elseif &bt ==# "terminal"
+        setlocal statusline=
+        setlocal statusline+=%#Constant#\ 
+        setlocal statusline+=%#CommandMode#\\ %{&shell}
+        setlocal statusline+=%#Constant#\
     else
         " Clear Status Line
         setlocal statusline=
@@ -388,6 +387,7 @@ endfunction
 " Update the status line with multiple buffers
 augroup HandleStatusLines
     autocmd!
+    autocmd VimEnter,WinEnter,BufEnter,BufWritePost * call GetGitBranch()
     autocmd VimEnter,WinEnter,BufEnter,BufWritePost * set statusline= | setlocal statusline=%!SetStatusLine()
 augroup END
 
@@ -398,7 +398,7 @@ augroup END
 " PLUGIN CONFIGURATION: {{{
 "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-" Configure Netrw (Should be built in to VIM)
+" Configure Netrw
 let g:netrw_liststyle=3                                         " Tree layout
 let g:netrw_banner=0                                            " Removes the info banner
 let g:netrw_browse_split=4                                      " Open new files to the right window
@@ -449,18 +449,18 @@ nnoremap <silent> <A-Right> :bn<CR>
 nnoremap <silent> q :bp<bar>sp<bar>bn<bar>bd<CR>
 
 " Better Scrolling
-noremap <silent> <S-k> <S-Up>
-noremap <silent> <S-j> <S-Down>
-noremap <silent> <C-Up> 5<C-y>
-noremap <silent> <C-k>  5<C-y>
-noremap <silent> <C-Down> 5<C-e>
-noremap <silent> <C-j> 5<C-e>
-noremap <silent> <S-Left> 5zh
-noremap <silent> <S-h> 5zh
-noremap <silent> <C-ScrollWheelUp> 5zh
-noremap <silent> <S-Right> 5zl
-noremap <silent> <S-l> 5zl
-noremap <silent> <C-ScrollWheelDown> 5zl
+noremap <silent> <S-k>                  <S-Up>
+noremap <silent> <S-j>                  <S-Down>
+noremap <silent> <C-Up>                 5<C-y>
+noremap <silent> <C-k>                  5<C-y>
+noremap <silent> <C-Down>               5<C-e>
+noremap <silent> <C-j>                  5<C-e>
+noremap <silent> <S-Left>               5zh
+noremap <silent> <S-h>                  5zh
+noremap <silent> <C-ScrollWheelUp>      5zh
+noremap <silent> <S-Right>              5zl
+noremap <silent> <S-l>                  5zl
+noremap <silent> <C-ScrollWheelDown>    5zl
 
 " Tab Completion
 inoremap <C-b> <C-n>
@@ -477,15 +477,24 @@ inoremap <silent><expr> <CR>    pumvisible() ? "\<C-y>" : "\<CR>"
 " CUSTOM UTILITY FUNCTIONS: {{{
 "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+" Get the git branch name
+function GetGitBranch()
+    let b:dir = expand('%:p:h')
+    if has('win32')
+        let b:git_branch = trim(system("powershell cd " . b:dir . "; git rev-parse --abbrev-ref HEAD 2> NUL"))
+    else
+        let b:git_branch = trim(system("cd " . b:dir . "; git rev-parse --abbrev-ref HEAD 2> /dev/null"))
+    endif
+endfunction
+
 " Limit git branch text length (for status bar)
 function TruncatedBranch()
-    let branch = gitbranch#name()
-    if strlen(branch) > 50
-        return "  " . strpart(branch, 0, 50)
-    elseif strlen(branch) == 0
+    if strlen(b:git_branch) > 50
+        return "  " . strpart(b:git_branch, 0, 50)
+    elseif strlen(b:git_branch) == 0
         return ""
     endif
-    return "  " . branch
+    return "  " . b:git_branch
 endfunction
 
 " Display the current operating system

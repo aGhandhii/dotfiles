@@ -33,9 +33,6 @@ git clone https://github.com/girishji/vimcomplete
 # vim-cpp-modern: improved syntax highlighting for C/C++
 git clone https://github.com/bfrg/vim-cpp-modern
 
-# vim-gitbranch: gets the name of the current branch, used for the status line
-git clone https://github.com/itchyny/vim-gitbranch
-
 # vim-gitgutter: shows git diff changes in left gutter
 git clone https://github.com/airblade/vim-gitgutter
 

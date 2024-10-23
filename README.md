@@ -40,7 +40,6 @@ Name | Location | Description
 [vim-auto-highlight](https://github.com/obxhdx/vim-auto-highlight)  | ...\start\ | Highlights matching words in Normal mode
 [vimcomplete](https://github.com/girishji/vimcomplete)              | ...\start\ | A lightweight vim9script autocompletion engine
 [vim-cpp-modern](https://github.com/bfrg/vim-cpp-modern)            | ...\start\ | Improved syntax highlighting for C/C++
-[vim-gitbranch](https://github.com/itchyny/vim-gitbranch)           | ...\start\ | Gets the name of the current branch, used for the status line
 [vim-gitgutter](https://github.com/airblade/vim-gitgutter)          | ...\start\ | Shows git diff changes in left gutter
 [lsp](https://github.com/yegappan/lsp)                              | ...\opt\   | Vim9Script Language Server compatibility layer
 [vim-gruvbox8](https://github.com/lifepillar/vim-gruvbox8)          | ...\opt\   | A retro-themed low-contrast colorscheme
