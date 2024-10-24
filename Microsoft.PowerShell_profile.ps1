@@ -77,9 +77,9 @@ function Get-GitBranchName () {
 
 function prompt {
     Get-GitBranchName
-    Write-Host "$env:USERNAME " -NoNewline -ForegroundColor green
-    Write-Host "$env:COMPUTERNAME " -NoNewline -ForegroundColor magenta
-    Write-Host "$pwd" -ForegroundColor blue
+    Write-Host "$env:USERNAME "     -ForegroundColor green   -NoNewline
+    Write-Host "$env:COMPUTERNAME " -ForegroundColor magenta -NoNewline
+    Write-Host "$pwd"               -ForegroundColor blue
     "-> "
 }
 

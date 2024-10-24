@@ -247,7 +247,7 @@ set expandtab                                                   " Tab is turned 
 set shiftround                                                  " Round indentation to multiples of 'shiftwidth'
 set backspace=indent,eol,start                                  " Backspacing includes indentation
 set autoindent                                                  " Remember indentation on newline
-autocmd FileType * set fo-=c fo-=r fo-=o                        " Prevent auto-commentation on newline
+set formatoptions=ql                                            " Prevent auto-commentation on newline
 
 " Column highlighting preferences
 set cursorline                                                  " Highlight current line
@@ -387,8 +387,7 @@ endfunction
 " Update the status line with multiple buffers
 augroup HandleStatusLines
     autocmd!
-    autocmd VimEnter,WinEnter,BufEnter,BufWritePost * call GetGitBranch()
-    autocmd VimEnter,WinEnter,BufEnter,BufWritePost * set statusline= | setlocal statusline=%!SetStatusLine()
+    autocmd VimEnter,WinEnter,BufEnter,BufWritePost * call GetGitBranch() | set statusline= | setlocal statusline=%!SetStatusLine()
 augroup END
 
 "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -407,9 +406,10 @@ let g:netrw_altv=1                                              " Split to left 
 let g:netrw_preview=1                                           " Show preview in vertical split
 
 " Configure GitGutter
-autocmd BufWritePost * GitGutter                                " Update gitgutter more often
-autocmd CmdwinLeave * GitGutter
-autocmd WinEnter * GitGutter
+augroup UpdateGitGutter
+    autocmd!
+    autocmd BufWritePost,CmdwinLeave,WinEnter * GitGutter       " Update gitgutter more often
+augroup END
 let g:gitgutter_sign_added=''
 let g:gitgutter_sign_modified=''
 let g:gitgutter_sign_removed=''
@@ -438,8 +438,6 @@ let g:enable_fuzzyy_MRU_files = 1                               " Store recent f
 
 " Open netrw File Explorer
 nnoremap <silent> <Leader>t :Lexplore<CR>
-" Open Fuzzyy Text Search
-nnoremap <silent> <C-f> :FuzzyInBuffer<CR>
 " Open a new tab
 nnoremap <silent> <C-t> :tabnew<CR>
 " Change Buffer
