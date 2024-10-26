@@ -16,6 +16,9 @@ chmod +x $HOME/.vim/pack/plugins/updatePlugins.sh
 
 cd $HOME/.vim/pack/plugins/start
 
+# auto-pairs: bracket pair tool
+git clone https://github.com/LunarWatcher/auto-pairs
+
 # fuzzyy: in-program fuzzy finder
 git clone https://github.com/Donaldttt/fuzzyy
 

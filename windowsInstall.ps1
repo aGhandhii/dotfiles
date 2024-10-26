@@ -15,6 +15,9 @@ New-Item -ItemType HardLink  -Path "$HOME\.vim\pack\plugins\updatePlugins.ps1" -
 
 Set-Location -Path "$HOME\.vim\pack\plugins\start"
 
+# auto-pairs: bracket pair tool
+git clone https://github.com/LunarWatcher/auto-pairs
+
 # fuzzyy: in-program fuzzy finder
 git clone https://github.com/Donaldttt/fuzzyy
 

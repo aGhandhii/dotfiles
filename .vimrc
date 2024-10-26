@@ -1,31 +1,3 @@
-" NERD FONTS: {{{
-"~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-"
-"   -> This setup requires the use of NERD fonts, which are patched fonts that
-"      include an extended icon library
-"
-"   -> Install a NERD font at this link:
-"       -> https://www.nerdfonts.com
-"
-"~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-" }}}
-
-
-" VIM PLUGIN FILE STRUCTURE REFERENCE: {{{
-"~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-"
-"   📂.vim
-"     |-📂pack
-"         |-📂plugins
-"             |-📂opt
-"             |   |- <colorscheme/lsp plugins>
-"             |-📂start
-"                 |- <all other plugins>
-"
-"~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-" }}}
-
-
 " CURRENT PLUGINS: {{{
 "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -33,6 +5,9 @@
 set packpath+=$HOME/.vim
 
 " PLACE PLUGINS IN ../.vim/pack/plugins/start/
+"
+" auto-pairs: bracket pair tool
+"   -> https://github.com/LunarWatcher/auto-pairs
 "
 " fuzzyy: in-program fuzzy finder
 "   -> https://github.com/Donaldttt/fuzzyy
@@ -72,43 +47,43 @@ packadd lsp
 
 " Set Options
 call LspOptionsSet(#{
-    \   aleSupport: v:false,
-    \   autoComplete: v:true,
-    \   autoHighlight: v:true,
-    \   autoHighlightDiags: v:true,
-    \   autoPopulateDiags: v:true,
-    \   completionMatcher: 'case',
-    \   completionTextEdit: v:true,
-    \   completionKinds: {},
-    \   customCompletionKinds: v:false,
-    \   diagSignErrorText: '',
-    \   diagSignInfoText: '',
-    \   diagSignHintText: '',
-    \   diagSignWarningText: '',
-    \   diagVirtualTextAlign: 'above',
-    \   echoSignature: v:false,
-    \   hideDisabledCodeActions: v:false,
-    \   highlightDiagInline: v:true,
-    \   hoverInPreview: v:false,
-    \   ignoreMissingServer: v:false,
-    \   keepFocusInDiags: v:true,
-    \   keepFocusInReferences: v:true,
-    \   noNewlineInCompletion: v:false,
-    \   omniComplete: v:true,
-    \   outlineOnRight: v:false,
-    \   outlineWinSize: 20,
-    \   showDiagInBalloon: v:true,
-    \   showDiagInPopup: v:true,
-    \   showDiagOnStatusLine: v:true,
-    \   showDiagWithSign: v:true,
-    \   showDiagWithVirtualText: v:false,
-    \   showInlayHints: v:false,
-    \   showSignature: v:true,
-    \   snippetSupport: v:false,
-    \   ultisnipsSupport: v:false,
-    \   usePopupInCodeAction: v:true,
-    \   useQuickfixForLocations: v:false,
-    \   useBufferCompletion: v:true,
+    \   aleSupport:                 v:false,
+    \   autoComplete:               v:true,
+    \   autoHighlight:              v:true,
+    \   autoHighlightDiags:         v:true,
+    \   autoPopulateDiags:          v:true,
+    \   completionMatcher:          'case',
+    \   completionTextEdit:         v:true,
+    \   completionKinds:            {},
+    \   customCompletionKinds:      v:false,
+    \   diagSignErrorText:          '',
+    \   diagSignInfoText:           '',
+    \   diagSignHintText:           '',
+    \   diagSignWarningText:        '',
+    \   diagVirtualTextAlign:       'above',
+    \   echoSignature:              v:false,
+    \   hideDisabledCodeActions:    v:false,
+    \   highlightDiagInline:        v:true,
+    \   hoverInPreview:             v:false,
+    \   ignoreMissingServer:        v:false,
+    \   keepFocusInDiags:           v:true,
+    \   keepFocusInReferences:      v:true,
+    \   noNewlineInCompletion:      v:false,
+    \   omniComplete:               v:true,
+    \   outlineOnRight:             v:false,
+    \   outlineWinSize:             20,
+    \   showDiagInBalloon:          v:true,
+    \   showDiagInPopup:            v:true,
+    \   showDiagOnStatusLine:       v:true,
+    \   showDiagWithSign:           v:true,
+    \   showDiagWithVirtualText:    v:false,
+    \   showInlayHints:             v:false,
+    \   showSignature:              v:true,
+    \   snippetSupport:             v:false,
+    \   ultisnipsSupport:           v:false,
+    \   usePopupInCodeAction:       v:true,
+    \   useQuickfixForLocations:    v:false,
+    \   useBufferCompletion:        v:true,
     \ })
 
 " PyLSP Python Language Server
@@ -182,10 +157,10 @@ let g:gruvbox_italicize_strings = 0
 
 augroup ColorFix
     autocmd!
-    autocmd ColorScheme * highlight! link LspDiagSignErrorText Exception
-    autocmd ColorScheme * highlight! link LspDiagSignHintText Identifier
-    autocmd ColorScheme * highlight! link LspDiagSignInfoText Include
-    autocmd ColorScheme * highlight! link LspDiagSignWarningText Type
+    autocmd ColorScheme * highlight! link LspDiagSignErrorText      Exception
+    autocmd ColorScheme * highlight! link LspDiagSignHintText       Identifier
+    autocmd ColorScheme * highlight! link LspDiagSignInfoText       Include
+    autocmd ColorScheme * highlight! link LspDiagSignWarningText    Type
 augroup END
 
 colorscheme gruvbox8_soft
@@ -439,12 +414,12 @@ let g:enable_fuzzyy_MRU_files = 1                               " Store recent f
 " Open netrw File Explorer
 nnoremap <silent> <Leader>t :Lexplore<CR>
 " Open a new tab
-nnoremap <silent> <C-t> :tabnew<CR>
+nnoremap <silent> <C-t>     :tabnew<CR>
 " Change Buffer
-nnoremap <silent> <A-Left> :bp<CR>
+nnoremap <silent> <A-Left>  :bp<CR>
 nnoremap <silent> <A-Right> :bn<CR>
 " Close a Buffer, not a Window
-nnoremap <silent> q :bp<bar>sp<bar>bn<bar>bd<CR>
+nnoremap <silent> q         :bp<bar>sp<bar>bn<bar>bd<CR>
 
 " Better Scrolling
 noremap <silent> <S-k>                  <S-Up>

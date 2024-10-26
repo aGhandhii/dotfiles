@@ -12,11 +12,11 @@ Windows: run `windowsInstall.ps1`
 
 All shells use [lsDeluxe](https://github.com/lsd-rs/lsd) for icons/colorizing and [RipGrep](https://github.com/BurntSushi/ripgrep) for improved searching
 
-### Powershell
+### Powershell Prompt
 
 ![image](https://github.com/aGhandhii/dotfiles/assets/110639969/a4690444-ded3-4e90-a376-e43260dee7f7)
 
-### Bash
+### Bash Prompt
 
 ![image](https://github.com/aGhandhii/dotfiles/assets/110639969/6e0c35c1-8678-44c4-84f1-3ad487e80e87)
 
@@ -34,6 +34,7 @@ Status lines also dynamically change on a per-buffer basis:
 
 Name | Location | Description
 ---  | ---      | ---
+[auto-pairs](https://github.com/LunarWatcher/auto-pairs)            | ...\start\ | Automatic bracket pairing
 [fuzzyy](https://github.com/Donaldttt/fuzzyy)                       | ...\start\ | In-program fuzzy finder
 [indentLine](https://github.com/Yggdroot/indentLine)                | ...\start\ | Shows vertical indendation bars
 [rainbow](https://github.com/luochen1990/rainbow)                   | ...\start\ | Bracket colorizer
