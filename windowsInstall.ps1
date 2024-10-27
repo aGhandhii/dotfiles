@@ -27,9 +27,6 @@ git clone https://github.com/Yggdroot/indentLine
 # rainbow: bracket colorizer
 git clone https://github.com/luochen1990/rainbow
 
-# vim-auto-highlight: highlights matching words in Normal mode
-git clone https://github.com/obxhdx/vim-auto-highlight
-
 # vimcomplete: a lightweight vim9script autocompletion engine
 git clone https://github.com/girishji/vimcomplete
 

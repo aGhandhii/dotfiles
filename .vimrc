@@ -18,9 +18,6 @@ set packpath+=$HOME/.vim
 " rainbow: bracket colorizer
 "   -> https://github.com/luochen1990/rainbow
 "
-" vim-auto-highlight: highlights matching words in Normal mode
-"   -> https://github.com/obxhdx/vim-auto-highlight
-"
 " vimcomplete: a lightweight vim9script autocompletion engine
 "   -> https://github.com/girishji/vimcomplete
 "
@@ -153,13 +150,6 @@ set background=dark
 let g:gruvbox_bold = 1
 let g:gruvbox_italics = 0
 let g:gruvbox_italicize_strings = 0
-"let g:gruvbox_transp_bg = 1
-
-augroup StatusLineColorFix
-    autocmd!
-    autocmd ColorScheme * highlight! PMenuThumb guifg=bg
-augroup END
-
 colorscheme gruvbox8_soft
 
 "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -358,6 +348,7 @@ endfunction
 " Update the status line with multiple buffers
 augroup HandleStatusLines
     autocmd!
+    autocmd VimEnter,ColorScheme * highlight! PMenuThumb guifg=bg
     autocmd VimEnter,WinEnter,BufEnter,BufWritePost,InsertLeave
         \ * call GetGitBranch() | call GetLspStats()
         \ | set statusline= | setlocal statusline=%!SetStatusLine()
@@ -444,6 +435,37 @@ inoremap <silent><expr> <CR>    pumvisible() ? "\<C-y>" : "\<CR>"
 
 " CUSTOM UTILITY FUNCTIONS: {{{
 "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+" Automatically highlight matching words in normal mode
+function AutoHighlightWord()
+    silent! call ClearAutoHighlightMatches()
+    let s:word = expand('<cword>')
+    if &background ==# "dark"
+        highlight! AutoHighlightWord guibg=#444444 guifg=NONE
+    else
+        highlight! AutoHighlightWord guibg=#E4E4E4 guifg=NONE
+    endif
+    if match(s:word, '\w\+') >= 0 && len(s:word) > 1
+        let s:escaped_word = substitute(s:word, '\(*\)', '\\\1', 'g')
+        call add(w:highlight_ids, matchadd('AutoHighlightWord', '\<'.s:escaped_word.'\>', 0))
+    endif
+endfunction
+" Clear existing auto-highlighed matches
+function ClearAutoHighlightMatches()
+    if !exists('w:highlight_ids')
+        let w:highlight_ids = []
+    endif
+    let ids = w:highlight_ids
+    while !empty(ids)
+        silent! call matchdelete(remove(ids, -1))
+    endwhile
+endfunction
+" Automate auto-highlight functionality
+augroup AutoHighlightWords
+    autocmd!
+    autocmd CursorHold  * call AutoHighlightWord()
+    autocmd CursorMoved * call ClearAutoHighlightMatches()
+augroup END
 
 " Get the git branch name
 function GetGitBranch()

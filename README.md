@@ -38,7 +38,6 @@ Name | Location | Description
 [fuzzyy](https://github.com/Donaldttt/fuzzyy)                       | ...\start\ | In-program fuzzy finder
 [indentLine](https://github.com/Yggdroot/indentLine)                | ...\start\ | Shows vertical indendation bars
 [rainbow](https://github.com/luochen1990/rainbow)                   | ...\start\ | Bracket colorizer
-[vim-auto-highlight](https://github.com/obxhdx/vim-auto-highlight)  | ...\start\ | Highlights matching words in Normal mode
 [vimcomplete](https://github.com/girishji/vimcomplete)              | ...\start\ | A lightweight vim9script autocompletion engine
 [vim-cpp-modern](https://github.com/bfrg/vim-cpp-modern)            | ...\start\ | Improved syntax highlighting for C/C++
 [vim-gitgutter](https://github.com/airblade/vim-gitgutter)          | ...\start\ | Shows git diff changes in left gutter
