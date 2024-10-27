@@ -61,6 +61,8 @@ fg_col="\e[38;"
 console_foreground="\e[39m"
 console_background="\e[49m"
 
+prompt_text_color="2;40;44;52m"
+
 # Color codes
 orange="2;254;128;25m"
 gold="2;250;189;47m"
@@ -89,7 +91,8 @@ function append_segment {
     fi
 
     # Display segment contents
-    segment="$segment$console_foreground$bg_col$color$contents"
+    #segment="$segment$console_foreground$bg_col$color$contents"
+    segment="$segment$fg_col$prompt_text_color$bg_col$color$contents"
 
     # Round off last segment
     if [[ $first_last == "last" || $first_last == "both" ]]; then
@@ -104,8 +107,8 @@ function append_segment {
 function prompt_command {
     branch="$(git_branch_name)"
     tag="$(git_tag_name)"
-    user="\u "
-    host="\h "
+    user="\u"
+    host="\h"
     dir="\w"
     prompt="\n-> "
 

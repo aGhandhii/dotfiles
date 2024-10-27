@@ -155,7 +155,7 @@ let g:gruvbox_italics = 0
 let g:gruvbox_italicize_strings = 0
 "let g:gruvbox_transp_bg = 1
 
-augroup ColorFix
+augroup StatusLineColorFix
     autocmd!
     autocmd ColorScheme * highlight! PMenuThumb guifg=bg
 augroup END
