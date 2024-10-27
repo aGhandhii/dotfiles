@@ -18,17 +18,17 @@ All shells use [lsDeluxe](https://github.com/lsd-rs/lsd) for icons/colorizing an
 
 ### Bash Prompt
 
-![image](https://github.com/aGhandhii/dotfiles/assets/110639969/6e0c35c1-8678-44c4-84f1-3ad487e80e87)
+![image](https://github.com/user-attachments/assets/39624ebf-b6fd-4f9b-986b-c73057f5316b)
 
 ## Vim
 
 Custom status line shows branch, filename, LSP diagnostics, operating system, encoding, and row/column:
 
-![image](https://github.com/aGhandhii/dotfiles/assets/110639969/31a4f10d-0890-4667-b16c-b2b3c5eaf307)
+![image](https://github.com/user-attachments/assets/e7d50c1a-efd9-4acf-8196-93f2dd8309b7)
 
 Status lines also dynamically change on a per-buffer basis:
 
-![image](https://github.com/aGhandhii/dotfiles/assets/110639969/5ebc5e30-3758-433c-a5e5-34c741002ccd)
+![img](https://github.com/user-attachments/assets/036c8de0-e095-40ae-9ddd-bc5de5faf207)
 
 ### Current Plugins
 
