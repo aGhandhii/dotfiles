@@ -157,10 +157,7 @@ let g:gruvbox_italicize_strings = 0
 
 augroup ColorFix
     autocmd!
-    autocmd ColorScheme * highlight! link LspDiagSignErrorText      Exception
-    autocmd ColorScheme * highlight! link LspDiagSignHintText       Identifier
-    autocmd ColorScheme * highlight! link LspDiagSignInfoText       Include
-    autocmd ColorScheme * highlight! link LspDiagSignWarningText    Type
+    autocmd ColorScheme * highlight! PMenuThumb guifg=bg
 augroup END
 
 colorscheme gruvbox8_soft
@@ -204,7 +201,9 @@ set nospell
 set ruler
 
 " Smooth line scrolling with mouse
-set smoothscroll
+if exists('&smoothscroll')
+    set smoothscroll
+endif
 
 " Character divider for vertical splits
 set fillchars=vert:󱋱
@@ -222,7 +221,10 @@ set expandtab                                                   " Tab is turned 
 set shiftround                                                  " Round indentation to multiples of 'shiftwidth'
 set backspace=indent,eol,start                                  " Backspacing includes indentation
 set autoindent                                                  " Remember indentation on newline
-set formatoptions=ql                                            " Prevent auto-commentation on newline
+augroup NoCommentOnNewLine
+    autocmd!
+    autocmd BufReadPost * set formatoptions=ql
+augroup END
 
 " Column highlighting preferences
 set cursorline                                                  " Highlight current line
@@ -291,7 +293,6 @@ set laststatus=2
 " in Insert Mode: (C-v)+u+e0b[0,4,6] -> [,,] 
 
 " Status line layout
-" Currently set to work with the Gruvbox8 Colorscheme
 function SetStatusLine()
     if &ft ==# "netrw"
         setlocal statusline=
@@ -300,60 +301,55 @@ function SetStatusLine()
         setlocal statusline+=%#Include#\
     elseif &bt ==# "terminal"
         setlocal statusline=
-        setlocal statusline+=%#Constant#\ 
-        setlocal statusline+=%#CommandMode#\\ %{&shell}
-        setlocal statusline+=%#Constant#\
+        setlocal statusline+=%#ModeMsg#\
+        setlocal statusline+=%#Search#\\ %{&shell}
+        setlocal statusline+=%#ModeMsg#\
     else
         " Clear Status Line
         setlocal statusline=
 
         " Git Branch
-        setlocal statusline+=%#Special#%{TruncatedBranch()==''?'':''}
+        setlocal statusline+=%#Special#%{b:git_branch==''?'':''}
         setlocal statusline+=%#IncSearch#%{TruncatedBranch()}%#LineNr#
-        setlocal statusline+=%#Special#%{TruncatedBranch()==''?'':''}\ 
+        setlocal statusline+=%#Special#%{b:git_branch==''?'':''} 
 
         " Filename
-        setlocal statusline+=%#Identifier#
+        setlocal statusline+=%#Identifier#%{b:git_branch==''?'':''} 
+        setlocal statusline+=%#InsertMode#%{b:git_branch==''?'':''} 
         setlocal statusline+=%#InsertMode#\%{WebDevIconsGetFileTypeSymbol()}\ %f
         setlocal statusline+=%{&modified?'*':''}
-        setlocal statusline+=%#Identifier#\
+        setlocal statusline+=%#Identifier#
 
         " Switch to the Right Side
         setlocal statusline+=%=
 
         " Language Server Diagnostics
-
-        " Info
-        setlocal statusline+=%#Include#%{ShowLspInfo()!=''?'':''}
-        setlocal statusline+=%#DiffChange#%{ShowLspInfo()}
-        setlocal statusline+=%#Include#%{ShowLspInfoEnd()}
-
-        " Hints
-        setlocal statusline+=%#Identifier#%{ShowLspHint()!=''?'':''}
-        setlocal statusline+=%#InsertMode#%{ShowLspHint()}
-        setlocal statusline+=%#Identifier#%{ShowLspHintEnd()}
-
-        " Warnings
-        setlocal statusline+=%#Type#%{ShowLspWarning()!=''?'':''}
-        setlocal statusline+=%#Search#%{ShowLspWarning()}
-        setlocal statusline+=%#Type#%{ShowLspWarningEnd()}
-
-        " Errors
-        setlocal statusline+=%#Exception#%{ShowLspError()!=''?'':''}
-        setlocal statusline+=%#ErrorMsg#%{ShowLspError()}
-        setlocal statusline+=%#Exception#%{ShowLspErrorEnd()}
+        if b:LspSummary['Info'] + b:LspSummary['Hint'] + b:LspSummary['Warn'] + b:LspSummary['Error'] != 0
+            setlocal statusline+=%#LineNr#%#PMenuThumb#%#LineNr#
+            if b:LspSummary['Info'] != 0
+                setlocal statusline+=%#DiffChange#%{b:LspInfoString}%#Define#
+            endif
+            if b:LspSummary['Hint'] != 0
+                setlocal statusline+=%#InsertMode#%{b:LspHintString}%#Identifier#
+            endif
+            if b:LspSummary['Warn'] != 0
+                setlocal statusline+=%#Search#%{b:LspWarnString}%#ModeMsg#
+            endif
+            if b:LspSummary['Error'] != 0
+                setlocal statusline+=%#ErrorMsg#%{b:LspErrString}%#WarningMsg#
+            endif
+            setlocal statusline+=%#PMenuThumb#%#LineNr#
+        endif
 
         " Operating System and File Encoding
-        setlocal statusline+=%#LineNr#
+        setlocal statusline+=%#LineNr#\ 
         setlocal statusline+=%#PMenuThumb#
-        highlight PMenuThumb guifg=#32302f
-        setlocal statusline+=%{DisplayOS()}\%{FileEncodeSpace()}\%{&fileencoding}
-        setlocal statusline+=%#LineNr#\
+        setlocal statusline+=%{DisplayOS()}\ %{(&fileencoding==''?'':&fileencoding)}
+        setlocal statusline+=%#LineNr#
 
         " Row and Column
-        setlocal statusline+=%#Constant#\ 
         setlocal statusline+=%#CommandMode#
-        setlocal statusline+=\\ %-2l\ \ %-2c
+        setlocal statusline+=\ %-1l\ \ %-1c
         setlocal statusline+=%#Constant#
 
     endif
@@ -362,7 +358,9 @@ endfunction
 " Update the status line with multiple buffers
 augroup HandleStatusLines
     autocmd!
-    autocmd VimEnter,WinEnter,BufEnter,BufWritePost * call GetGitBranch() | set statusline= | setlocal statusline=%!SetStatusLine()
+    autocmd VimEnter,WinEnter,BufEnter,BufWritePost,InsertLeave
+        \ * call GetGitBranch() | call GetLspStats()
+        \ | set statusline= | setlocal statusline=%!SetStatusLine()
 augroup END
 
 "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -422,21 +420,18 @@ nnoremap <silent> <A-Right> :bn<CR>
 nnoremap <silent> q         :bp<bar>sp<bar>bn<bar>bd<CR>
 
 " Better Scrolling
-noremap <silent> <S-k>                  <S-Up>
-noremap <silent> <S-j>                  <S-Down>
-noremap <silent> <C-Up>                 5<C-y>
-noremap <silent> <C-k>                  5<C-y>
-noremap <silent> <C-Down>               5<C-e>
-noremap <silent> <C-j>                  5<C-e>
-noremap <silent> <S-Left>               5zh
-noremap <silent> <S-h>                  5zh
-noremap <silent> <C-ScrollWheelUp>      5zh
-noremap <silent> <S-Right>              5zl
-noremap <silent> <S-l>                  5zl
-noremap <silent> <C-ScrollWheelDown>    5zl
+noremap <silent> <S-k>      <S-Up>
+noremap <silent> <S-j>      <S-Down>
+noremap <silent> <C-Up>     5<C-y>
+noremap <silent> <C-k>      5<C-y>
+noremap <silent> <C-Down>   5<C-e>
+noremap <silent> <C-j>      5<C-e>
+noremap <silent> <S-Left>   5zh
+noremap <silent> <S-h>      5zh
+noremap <silent> <S-Right>  5zl
+noremap <silent> <S-l>      5zl
 
 " Tab Completion
-inoremap <C-b> <C-n>
 inoremap <silent><expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
 inoremap <silent><expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 inoremap <silent><expr> <Down>  pumvisible() ? "\<C-n>" : "\<Down>"
@@ -485,78 +480,13 @@ function DisplayOS()
     endif
 endfunction
 
-" Get file encoding spacing for the status line
-function FileEncodeSpace()
-    if &fileencoding!=''
-        return ' '
-    endif
-    return ''
-endfunction
-
 " Display Language Server Diagnostic Summary on the Statusline
-
-" Information
-function ShowLspInfo()
-    let summary = lsp#lsp#ErrorCount()
-    let LspInfoString = ''
-    if summary['Info'] != 0
-        let LspInfoString = LspInfoString . ' ' . summary['Info']
-    endif
-    return LspInfoString
-endfunction
-function ShowLspInfoEnd()
-    if ShowLspInfo()==''
-        return ''
-    endif
-    return ' '
-endfunction
-
-" Hints
-function ShowLspHint()
-    let summary = lsp#lsp#ErrorCount()
-    let LspHintString = ''
-    if summary['Hint'] != 0
-        let LspHintString = LspHintString . ' ' . summary['Hint']
-    endif
-    return LspHintString
-endfunction
-function ShowLspHintEnd()
-    if ShowLspHint()==''
-        return ''
-    endif
-    return ' '
-endfunction
-
-" Warnings
-function ShowLspWarning()
-    let summary = lsp#lsp#ErrorCount()
-    let LspWarnString = ''
-    if summary['Warn'] != 0
-        let LspWarnString = LspWarnString . ' ' . summary['Warn']
-    endif
-    return LspWarnString
-endfunction
-function ShowLspWarningEnd()
-    if ShowLspWarning()==''
-        return ''
-    endif
-    return ' '
-endfunction
-
-" Errors
-function ShowLspError()
-    let summary = lsp#lsp#ErrorCount()
-    let LspErrString = ''
-    if summary['Error'] != 0
-        let LspErrString = LspErrString . ' ' . summary['Error']
-    endif
-    return LspErrString
-endfunction
-function ShowLspErrorEnd()
-    if ShowLspError()==''
-        return ''
-    endif
-    return ' '
+function GetLspStats()
+    let b:LspSummary    = lsp#lsp#ErrorCount()
+    let b:LspInfoString = '' . b:LspSummary['Info']
+    let b:LspHintString = '' . b:LspSummary['Hint']
+    let b:LspWarnString = '' . b:LspSummary['Warn']
+    let b:LspErrString  = '' . b:LspSummary['Error']
 endfunction
 
 " Determine file icon for file type
@@ -573,7 +503,6 @@ endfunction
 " Determine file icon for file type
 " Code modified from vim-devicons for compatibility with fuzzyy plugin
 function! WebDevIconsGetFileTypeSymbol(...) abort
-
     " Check for args and store file extension and name
     if a:0 == 0
         let fileNode = expand('%:t')
@@ -597,7 +526,6 @@ function! WebDevIconsGetFileTypeSymbol(...) abort
 
     " Return the icon
     return symbol
-
 endfunction
 
 " Icon references
