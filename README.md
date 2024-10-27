@@ -14,7 +14,7 @@ All shells use [lsDeluxe](https://github.com/lsd-rs/lsd) for icons/colorizing an
 
 ### Powershell Prompt
 
-![image](https://github.com/aGhandhii/dotfiles/assets/110639969/a4690444-ded3-4e90-a376-e43260dee7f7)
+![image](https://github.com/user-attachments/assets/90194d81-d532-4dab-96c9-33644c5893c2)
 
 ### Bash Prompt
 
