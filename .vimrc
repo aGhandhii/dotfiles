@@ -114,9 +114,9 @@ if executable('verible-verilog-ls')
 endif
 
 " Veridian SystemVerilog Language Server
-if executable('veridian-ls')
+if executable('veridian')
     call LspAddServer([#{
-        \   name: 'veridian-ls',
+        \   name: 'veridian',
         \   filetype: ['systemverilog', 'verilog'],
         \   path: 'veridian',
         \   args: []
@@ -392,6 +392,11 @@ let g:rainbow_active = 1
 let g:fuzzyy_devicons = 1                                       " Enable devicons
 let g:files_respect_gitignore = 1                               " Respect GitIgnore
 let g:enable_fuzzyy_MRU_files = 1                               " Store recent files
+let g:enable_fuzzyy_keymaps = 0                                 " Disable keymap defaults
+" Fuzzy keymaps
+nnoremap <silent> <leader>ff :FuzzyFiles<CR>
+nnoremap <silent> <Leader>fb :FuzzyBuffers<CR>
+nnoremap <silent> <leader>fm :FuzzyMRUFiles<CR>
 
 "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 " }}}
@@ -474,6 +479,25 @@ function GetGitBranch()
         let b:git_branch = trim(system("powershell cd " . b:dir . "; git rev-parse --abbrev-ref HEAD 2> NUL"))
     else
         let b:git_branch = trim(system("cd " . b:dir . "; git rev-parse --abbrev-ref HEAD 2> /dev/null"))
+    endif
+endfunction
+
+" If available, automatically load tags file for a repository
+augroup AutoGitRepoTags
+    autocmd!
+    autocmd VimEnter,WinEnter,BufEnter * call LoadRepoTags()
+augroup END
+function LoadRepoTags()
+    if has('win32')
+        let b:repo_root = trim(system('git rev-parse --show-toplevel 2> NUL'))
+    else
+        let b:repo_root = trim(system('git rev-parse --show-toplevel 2> /dev/null'))
+    endif
+    if strlen(b:repo_root) > 0
+        let b:repo_root = b:repo_root . "/tags"
+        if filereadable(b:repo_root)
+            exec "set tags+=" . b:repo_root
+        endif
     endif
 endfunction
 
