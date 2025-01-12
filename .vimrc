@@ -488,16 +488,9 @@ augroup AutoGitRepoTags
     autocmd VimEnter,WinEnter,BufEnter * call LoadRepoTags()
 augroup END
 function LoadRepoTags()
-    if has('win32')
-        let b:repo_root = trim(system('git rev-parse --show-toplevel 2> NUL'))
-    else
-        let b:repo_root = trim(system('git rev-parse --show-toplevel 2> /dev/null'))
-    endif
-    if strlen(b:repo_root) > 0
-        let b:repo_root = b:repo_root . "/tags"
-        if filereadable(b:repo_root)
-            exec "set tags+=" . b:repo_root
-        endif
+    let b:repo_root = trim(system('git rev-parse --show-toplevel')) . "/tags"
+    if filereadable(b:repo_root)
+        exec "set tags+=" . b:repo_root
     endif
 endfunction
 
