@@ -335,11 +335,11 @@ function SetStatusLine()
         setlocal statusline+=%#LineNr#\ 
         setlocal statusline+=%#PMenuThumb#
         setlocal statusline+=%{DisplayOS()}\ %{(&fileencoding==''?'':&fileencoding)}
-        setlocal statusline+=%#LineNr#
+        setlocal statusline+=
 
         " Row and Column
-        setlocal statusline+=%#CommandMode#
-        setlocal statusline+=\ %-1l\ \ %-1c
+        setlocal statusline+=%#Constant#
+        setlocal statusline+=%#CommandMode#\ %-1l\ \ %-1c
         setlocal statusline+=%#Constant#
 
     endif
@@ -397,6 +397,14 @@ let g:enable_fuzzyy_keymaps = 0                                 " Disable keymap
 nnoremap <silent> <leader>ff :FuzzyFiles<CR>
 nnoremap <silent> <Leader>fb :FuzzyBuffers<CR>
 nnoremap <silent> <leader>fm :FuzzyMRUFiles<CR>
+
+" Configure vimcomplete
+let g:vimcomplete_conf = {
+    \ 'tag' : {
+        \ 'enable' : true,
+    \ },
+\ }
+autocmd VimEnter * call g:VimCompleteOptionsSet(g:vimcomplete_conf)
 
 "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 " }}}

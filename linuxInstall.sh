@@ -31,8 +31,8 @@ git clone https://github.com/luochen1990/rainbow
 # vimcomplete: a lightweight vim9script autocompletion engine
 git clone https://github.com/girishji/vimcomplete
 
-# vim-cpp-modern: improved syntax highlighting for C/C++
-git clone https://github.com/bfrg/vim-cpp-modern
+# vim-c-cpp-modern: improved syntax highlighting for C/C++
+git clone https://github.com/bfrg/vim-c-cpp-modern
 
 # vim-gitgutter: shows git diff changes in left gutter
 git clone https://github.com/airblade/vim-gitgutter

@@ -39,7 +39,7 @@ Name | Location | Description
 [indentLine](https://github.com/Yggdroot/indentLine)                | ...\start\ | Shows vertical indendation bars
 [rainbow](https://github.com/luochen1990/rainbow)                   | ...\start\ | Bracket colorizer
 [vimcomplete](https://github.com/girishji/vimcomplete)              | ...\start\ | A lightweight vim9script autocompletion engine
-[vim-cpp-modern](https://github.com/bfrg/vim-cpp-modern)            | ...\start\ | Improved syntax highlighting for C/C++
+[vim-c-cpp-modern](https://github.com/bfrg/vim-c-cpp-modern)        | ...\start\ | Improved syntax highlighting for C/C++
 [vim-gitgutter](https://github.com/airblade/vim-gitgutter)          | ...\start\ | Shows git diff changes in left gutter
 [lsp](https://github.com/yegappan/lsp)                              | ...\opt\   | Vim9Script Language Server compatibility layer
 [vim-gruvbox8](https://github.com/lifepillar/vim-gruvbox8)          | ...\opt\   | A retro-themed low-contrast colorscheme
