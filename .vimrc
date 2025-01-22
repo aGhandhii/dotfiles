@@ -396,7 +396,7 @@ let g:enable_fuzzyy_keymaps = 0                                 " Disable keymap
 " Fuzzy keymaps
 nnoremap <silent> <leader>ff :FuzzyFiles<CR>
 nnoremap <silent> <Leader>fb :FuzzyBuffers<CR>
-nnoremap <silent> <leader>fm :FuzzyMRUFiles<CR>
+nnoremap <silent> <leader>fm :FuzzyMru<CR>
 
 " Configure vimcomplete
 let g:vimcomplete_conf = {
