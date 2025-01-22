@@ -399,11 +399,7 @@ nnoremap <silent> <Leader>fb :FuzzyBuffers<CR>
 nnoremap <silent> <leader>fm :FuzzyMru<CR>
 
 " Configure vimcomplete
-let g:vimcomplete_conf = {
-    \ 'tag' : {
-        \ 'enable' : true,
-    \ },
-\ }
+let g:vimcomplete_conf = {'tag' : {'enable' : v:true}}
 autocmd VimEnter * call g:VimCompleteOptionsSet(g:vimcomplete_conf)
 
 "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
