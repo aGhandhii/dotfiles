@@ -1,20 +1,27 @@
 #!/usr/bin/bash
 
-ln .bashrc $HOME/.bashrc
-ln .gitconfig $HOME/.gitconfig
-ln .vimrc $HOME/.vimrc
+echo -n -e "Linking config files to Home Directory ... "
+ln -s -f $(pwd)/.bashrc       $HOME/.bashrc
+ln -s -f $(pwd)/.gitconfig    $HOME/.gitconfig
+ln -s -f $(pwd)/.vimrc        $HOME/.vimrc
+echo -n -e "Done!\n"
 
 # VIM SETUP {{{
 
 # Create vim plugin directory structure
 mkdir --parents $HOME/.vim/pack/plugins/start
 mkdir --parents $HOME/.vim/pack/plugins/opt
-ln updatePlugins.sh $HOME/.vim/pack/plugins/updatePlugins.sh
-chmod +x $HOME/.vim/pack/plugins/updatePlugins.sh
+
+# Add vim plugin update script
+ln -s -f $(pwd)/updatePlugins.sh $HOME/.vim/pack/plugins/updatePlugins.sh
+chmod +x updatePlugins.sh
 
 # Install Current Plugins
 
 cd $HOME/.vim/pack/plugins/start
+
+# Clear current plugins
+rm -rf *
 
 # auto-pairs: bracket pair tool
 git clone https://github.com/LunarWatcher/auto-pairs
@@ -38,6 +45,9 @@ git clone https://github.com/bfrg/vim-c-cpp-modern
 git clone https://github.com/airblade/vim-gitgutter
 
 cd $HOME/.vim/pack/plugins/opt
+
+# Clear current plugins
+rm -rf *
 
 # lsp: vim9 Language Server implementation
 git clone https://github.com/yegappan/lsp.git
