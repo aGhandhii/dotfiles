@@ -119,7 +119,7 @@ if executable('veridian')
         \   name: 'veridian',
         \   filetype: ['systemverilog', 'verilog'],
         \   path: 'veridian',
-        \   args: []
+        \   features: {'diagnostics': v:false}
         \ }])
 endif
 
@@ -223,7 +223,6 @@ set colorcolumn=80,120                                          " Set style line
 " File/Directory settings
 set nobackup                                                    " Stop storing auto backups
 set noswapfile                                                  " Stop creating swap files
-set autochdir                                                   " Switch working directory to current window
 set hidden                                                      " Ignore saving when switching between tabs
 set confirm                                                     " Skip confirmation when saving and quitting a file
 
@@ -306,7 +305,7 @@ function SetStatusLine()
         " Filename
         setlocal statusline+=%#Identifier#%{b:git_branch==''?'':''} 
         setlocal statusline+=%#InsertMode#%{b:git_branch==''?'':''} 
-        setlocal statusline+=%#InsertMode#\%{WebDevIconsGetFileTypeSymbol()}\ %f
+        setlocal statusline+=%#InsertMode#\%{WebDevIconsGetFileTypeSymbol()}\ %t
         setlocal statusline+=%{&modified?'*':''}
         setlocal statusline+=%#Identifier#
 
@@ -315,20 +314,20 @@ function SetStatusLine()
 
         " Language Server Diagnostics
         if b:LspSummary['Info'] + b:LspSummary['Hint'] + b:LspSummary['Warn'] + b:LspSummary['Error'] != 0
-            setlocal statusline+=%#LineNr#%#PMenuThumb#%#LineNr#
+            setlocal statusline+=%#LineNr#\ 
             if b:LspSummary['Info'] != 0
-                setlocal statusline+=%#DiffChange#%{b:LspInfoString}%#Define#
+                setlocal statusline+=%#Define#%{b:LspInfoString}\ 
             endif
             if b:LspSummary['Hint'] != 0
-                setlocal statusline+=%#InsertMode#%{b:LspHintString}%#Identifier#
+                setlocal statusline+=%#Identifier#%{b:LspHintString}\ 
             endif
             if b:LspSummary['Warn'] != 0
-                setlocal statusline+=%#Search#%{b:LspWarnString}%#ModeMsg#
+                setlocal statusline+=%#ModeMsg#%{b:LspWarnString}\ 
             endif
             if b:LspSummary['Error'] != 0
-                setlocal statusline+=%#ErrorMsg#%{b:LspErrString}%#WarningMsg#
+                setlocal statusline+=%#WarningMsg#%{b:LspErrString}\ 
             endif
-            setlocal statusline+=%#PMenuThumb#%#LineNr#
+            setlocal statusline+=%#LineNr#
         endif
 
         " Operating System and File Encoding
