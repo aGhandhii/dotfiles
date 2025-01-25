@@ -12,12 +12,7 @@ echo -n -e "Done!\n"
 mkdir --parents $HOME/.vim/pack/plugins/start
 mkdir --parents $HOME/.vim/pack/plugins/opt
 
-# Add vim plugin update script
-ln -s -f $(pwd)/updatePlugins.sh $HOME/.vim/pack/plugins/updatePlugins.sh
-chmod +x updatePlugins.sh
-
 # Install Current Plugins
-
 cd $HOME/.vim/pack/plugins/start
 
 # Clear current plugins

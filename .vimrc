@@ -398,8 +398,11 @@ nnoremap <silent> <Leader>fb :FuzzyBuffers<CR>
 nnoremap <silent> <leader>fm :FuzzyMru<CR>
 
 " Configure vimcomplete
-"let g:vimcomplete_conf = {'tag' : {'enable' : v:true}}
-"autocmd VimEnter * call g:VimCompleteOptionsSet(g:vimcomplete_conf)
+let g:vimcomplete_conf = {
+    \ 'tag' : {'enable' : v:true},
+    \ 'completor' : {'kindDisplayType' : 'icon'}
+    \ }
+autocmd VimEnter * call g:VimCompleteOptionsSet(g:vimcomplete_conf)
 
 "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 " }}}
@@ -410,8 +413,6 @@ nnoremap <silent> <leader>fm :FuzzyMru<CR>
 
 " Open netrw File Explorer
 nnoremap <silent> <Leader>t :Lexplore<CR>
-" Open a new tab
-nnoremap <silent> <C-t>     :tabnew<CR>
 " Change Buffer
 nnoremap <silent> <A-Left>  :bp<CR>
 nnoremap <silent> <A-Right> :bn<CR>
