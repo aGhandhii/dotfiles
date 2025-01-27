@@ -411,24 +411,23 @@ autocmd VimEnter * call g:VimCompleteOptionsSet(g:vimcomplete_conf)
 "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 " Open netrw File Explorer
-nnoremap <silent> <Leader>t :Lexplore<CR>
-" Change Buffer
-nnoremap <silent> <A-Left>  :bp<CR>
-nnoremap <silent> <A-Right> :bn<CR>
+nnoremap <silent> <Leader>t     :Lexplore<CR>
 " Close a Buffer, not a Window
-nnoremap <silent> q         :bp<bar>sp<bar>bn<bar>bd<CR>
+nnoremap <silent> <Leader>q     :bp<bar>sp<bar>bn<bar>bd<CR>
+" Open a tag in a vertical split
+nnoremap <silent> <C-w><C-]>    :only<bar>vsplit<CR>:execute "tag " . expand('<cword>')<CR>
 
 " Better Scrolling
-noremap <silent> <S-k>      <S-Up>
-noremap <silent> <S-j>      <S-Down>
-noremap <silent> <C-Up>     5<C-y>
-noremap <silent> <C-k>      5<C-y>
-noremap <silent> <C-Down>   5<C-e>
-noremap <silent> <C-j>      5<C-e>
-noremap <silent> <S-Left>   5zh
-noremap <silent> <S-h>      5zh
-noremap <silent> <S-Right>  5zl
-noremap <silent> <S-l>      5zl
+noremap <silent> <S-k>          <S-Up>
+noremap <silent> <S-j>          <S-Down>
+noremap <silent> <C-Up>         5<C-y>
+noremap <silent> <C-k>          5<C-y>
+noremap <silent> <C-Down>       5<C-e>
+noremap <silent> <C-j>          5<C-e>
+noremap <silent> <S-Left>       5zh
+noremap <silent> <S-h>          5zh
+noremap <silent> <S-Right>      5zl
+noremap <silent> <S-l>          5zl
 
 " Tab Completion
 inoremap <silent><expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
