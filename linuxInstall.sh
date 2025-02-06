@@ -1,6 +1,9 @@
 #!/usr/bin/bash
 
 echo -n -e "Linking config files to Home Directory ... "
+rm $HOME/.bashrc    2> /dev/null
+rm $HOME/.gitconfig 2> /dev/null
+rm $HOME/.vimrc     2> /dev/null
 ln -s -f $(pwd)/.bashrc       $HOME/.bashrc
 ln -s -f $(pwd)/.gitconfig    $HOME/.gitconfig
 ln -s -f $(pwd)/.vimrc        $HOME/.vimrc
