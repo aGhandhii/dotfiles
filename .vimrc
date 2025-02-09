@@ -190,6 +190,9 @@ set nospell
 " Track location of cursor
 set ruler
 
+" Make cursor a vertical bar
+let &t_EI="\e[6 q]"
+
 " Smooth line scrolling with mouse
 if exists('&smoothscroll')
     set smoothscroll
