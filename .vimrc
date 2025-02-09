@@ -313,21 +313,17 @@ function SetStatusLine()
         setlocal statusline+=%=
 
         " Language Server Diagnostics
-        if b:LspSummary['Info'] + b:LspSummary['Hint'] + b:LspSummary['Warn'] + b:LspSummary['Error'] != 0
-            setlocal statusline+=%#LineNr#\ 
-            if b:LspSummary['Info'] != 0
-                setlocal statusline+=%#Define#%{b:LspInfoString}\ 
-            endif
-            if b:LspSummary['Hint'] != 0
-                setlocal statusline+=%#Identifier#%{b:LspHintString}\ 
-            endif
-            if b:LspSummary['Warn'] != 0
-                setlocal statusline+=%#ModeMsg#%{b:LspWarnString}\ 
-            endif
-            if b:LspSummary['Error'] != 0
-                setlocal statusline+=%#WarningMsg#%{b:LspErrString}\ 
-            endif
-            setlocal statusline+=%#LineNr#
+        if b:LspSummary['Info'] != 0
+            setlocal statusline+=%#Define#%{b:LspInfoString}\ 
+        endif
+        if b:LspSummary['Hint'] != 0
+            setlocal statusline+=%#Identifier#%{b:LspHintString}\ 
+        endif
+        if b:LspSummary['Warn'] != 0
+            setlocal statusline+=%#ModeMsg#%{b:LspWarnString}\ 
+        endif
+        if b:LspSummary['Error'] != 0
+            setlocal statusline+=%#WarningMsg#%{b:LspErrString}\ 
         endif
 
         " Operating System and File Encoding
