@@ -146,7 +146,7 @@ endif
 
 " Gruvbox8 configuration
 packadd vim-gruvbox8
-set background=dark
+set background=light
 let g:gruvbox_bold = 1
 let g:gruvbox_italics = 0
 let g:gruvbox_italicize_strings = 0
