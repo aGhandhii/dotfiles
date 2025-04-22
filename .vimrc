@@ -387,6 +387,7 @@ let g:indentLine_char = ''
 let g:rainbow_active = 1
 
 " Configure fuzzyy
+let g:loaded_webdevicons = 1                                    " Enable devicons
 let g:fuzzyy_devicons = 1                                       " Enable devicons
 let g:enable_fuzzyy_MRU_files = 1                               " Store recent files
 let g:fuzzyy_enable_mappings = 0                                " Disable keymap defaults
